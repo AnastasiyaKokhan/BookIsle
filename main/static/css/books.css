@@ -1,0 +1,250 @@
+.caption {
+    padding: 25px 40px 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.caption__title {
+    color: #173F5F;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.caption__add_book {
+    display: flex;
+}
+
+.caption__add_book-button {
+    padding: 10px 12px 10px 12px;
+    background: #B0C4DE;
+    border-radius: 50px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #173F5F;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.caption__add_book-button-image {
+    height: 15px;
+    width: 15px;
+}
+
+.caption__add_book-button-image img {
+    height: 100%;
+    width: 100%;
+}
+
+.caption__add_book-button:hover {
+    padding: 8px 10px 8px 10px;
+    background: #F6F6F7;
+    border: 2px solid #B0C4DE;
+    border-radius: 50px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #173F5F;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.main {
+    margin: 10px 40px 25px 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter {
+    padding: 20px 20px 20px 25px;
+    width: 20%;
+    height: 100%;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.filter__title {
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.filter__genre {
+    padding: 15px 0px 10px 0px;
+}
+
+.filter__genre-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter__genre-list-parent {
+    margin: 4px 0px 4px 0px;
+    display: flex;
+}
+
+.filter__genre-list-children {
+    margin: 2px 0px 2px 0px;
+}
+
+.filter__genre-list-children-child {
+    padding: 0px 0px 0px 15px;
+    margin: 2px 0px 2px 0px;
+    display: flex;
+}
+
+.filter__genre-list-parent-input {
+    margin: 0px 5px 0px 0px;
+    width: 19px;
+    height: 19px;
+    border: 2px solid red;
+    border-radius: 4px;
+    background-color: #3CBC8D;
+    color: white;
+}
+
+.filter__genre-list-parent-input:hover + label {
+   color: SlateGray;
+}
+
+.filter__genre-list-children-child-input {
+    margin: 0px 5px 0px 0px;
+    width: 16px;
+    height: 16px;
+}
+
+.filter__genre-list-children-child-input:hover + label {
+    color: SlateGray;
+}
+
+.filter__genre-list-label {
+    color: black;
+    font-size: 17px;
+}
+
+.filter__genre-button {
+    margin: 15px 0px 0px 0px;
+    padding: 5px 7px 5px 7px;
+    background: #B0C4DE;
+    border-radius: 4px;
+    color: #173F5F;
+    font-size: 16px;
+}
+
+.filter__genre-button:hover {
+    margin: 15px 0px 0px 0px;
+    padding: 4px 6px 4px 6px;
+    background: white;
+    border: 2px solid #B0C4DE;
+    border-radius: 4px;
+    color: #173F5F;
+    font-size: 16px;
+}
+
+.books {
+    width: 72%;
+}
+
+table {
+    width: 100%;
+}
+
+thead {
+    background: #B0C4DE;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+thead th {
+    padding: 8px 13px 8px 13px;
+    border-bottom: 1px solid #F6F6F7;
+}
+
+thead th:nth-child(1) {
+    width: 60%;
+}
+
+thead th:nth-child(2) {
+    width: 20%;
+}
+
+thead th:nth-child(3) {
+    width: 10%;
+}
+
+thead th:nth-child(4) {
+    width: 10%;
+}
+
+thead th:nth-child(5) {
+    width: 10%;
+}
+
+tbody {
+    background: white;
+    color: black;
+    font-size: 16px;
+}
+
+tbody th {
+    padding: 7px 5px 7px 10px;
+    border-bottom: 1px solid #F6F6F7;
+    border-top: 1px solid #F6F6F7;
+}
+
+tbody th:nth-child(1) {
+    text-align: left;
+}
+
+tbody th:nth-child(2) {
+    text-align: left;
+}
+
+.russian_title {
+    color: black;
+}
+
+.russian_title:hover {
+    color: SlateGray;
+}
+
+.original_title {
+    color: grey;
+}
+
+.books__paginator {
+    padding: 10px 0px 0px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #173F5F;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.books__paginator-arrows {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.books__paginator-arrows-image {
+    height: 35px;
+    width: 40px;
+}
+
+.books__paginator-arrows-image img {
+    height: 100%;
+    width: 100%;
+}
+
+.not_found {
+    color: black;
+    font-size: 25px;
+}

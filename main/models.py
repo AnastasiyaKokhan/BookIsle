@@ -9,30 +9,6 @@ from mptt.models import MPTTModel
 # Create your models here.
 
 
-# class Reader(models.Model):
-#     first_name = models.CharField(max_length=30, verbose_name='Имя')
-#     last_name = models.CharField(max_length=30, verbose_name='Фамилия')
-#     patronymic = models.CharField(max_length=30, blank=True, null=True, verbose_name='Отчество')
-#     passport_number = models.CharField(max_length=9, unique=True, blank=True, null=True, verbose_name='Номер паспорта',
-#                                        help_text='АА0000000')
-#     birth_date = models.DateField(verbose_name='Дата рождения', help_text='ДД.ММ.ГГГГ')
-#     residential_address = models.CharField(max_length=500, blank=True, null=True, verbose_name='Адрес проживания',
-#                                            help_text='населенный пункт, улица, дом, квартира')
-#     email_address = models.EmailField(unique=True, verbose_name='e-mail')
-#     is_agreed = models.BooleanField(verbose_name='Пользователь подписал соглашение')
-#
-#     class Meta:
-#         constraints = [
-#             models.CheckConstraint(check=models.Q(is_agreed=True), name="the_reader_has_signed_the_agreement"),
-#         ]
-#         ordering = ['last_name',]
-#         verbose_name = 'Читатель'
-#         verbose_name_plural = 'Читатели'
-#
-#     def __str__(self):
-#         return f'{self.last_name} {self.first_name}'
-
-
 class Author(models.Model):
     first_name = models.CharField(max_length=30, verbose_name='Имя')
     last_name = models.CharField(max_length=30, verbose_name='Фамилия')
@@ -90,7 +66,7 @@ class Book(models.Model):
 
     class Meta:
         unique_together = ['russian_title', 'original_title', 'publication_date', 'page_count',]
-        ordering = ['russian_title', 'instance_count']
+        ordering = ['russian_title', '-instance_count']
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
 
@@ -114,13 +90,13 @@ class Book(models.Model):
         return reverse('book_description', kwargs={'book_slug': self.slug})
 
     def count_available_book_instances(self):
-        return self.bookinstance_set.filter(status='not available').count()
+        return self.bookinstance_set.filter(status='available').count()
 
 
 class BookInstance(models.Model):
     STATUS = {
         "available": "доступна для выдачи",
-        "not available": "НЕ доступна для выдачи",
+        "not_available": "НЕ доступна для выдачи",
     }
     book = models.ForeignKey('Book', on_delete=models.CASCADE, verbose_name='Книга')
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Стоимость')

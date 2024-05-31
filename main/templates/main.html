@@ -1,10 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/null.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    {% block stylesheet %}
+    {% endblock %}
+    {% block title %}
+        <title>Main</title>
+    {% endblock %}
 </head>
 <body>
+    <header>
+        <div class="header">
+            <a href="{% url 'main' %}">
+                <div class="header__logo">
+                    <div class="header__logo-image">
+                        <img src="{% static 'img/logo.svg' %}" alt="">
+                    </div>
+                    <h1 class="header__up-logo-title">Book Isle</h1>
+                </div>
+            </a>
+            <div class="header__search">
+                <div class="header__search-image">
+                    <img src="{% static 'img/search.svg' %}" alt="">
+                </div>
+                <form action="{% url 'book_search' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="search" id="search" placeholder="Поиск" minlength="3"/>
+                </form>
+            </div>
+            <div class="header__user">
+                <div class="header__user-photo">
+                    <img src="{% static 'img/no_user_photo.svg' %}" alt="">
+                </div>
+                <div class="header__user-name">
+                    <p>Фамилия Имя</p>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <a href="{% url 'main' %}">Главная</a>
+            <a href="{% url 'books' %}">Книги</a>
+            <a href="#">Читатели</a>
+            <a href="#">Корзина</a>
+        </nav>
+    </header>
+    <main>
+        {% block main %}
+            <section class="about">
+                <div class="about__image">
+                    <img src="{% static 'img/library.jpg' %}" alt="">
+                </div>
+                <div class="about__info">
+                    <a href="{% url 'books' %}">
+                        <div class="about__info-statistics">
+                            <div class="about__info-statistics-image">
+                                <img src="{% static 'img/book.svg' %}" alt="">
+                            </div>
+                            <div>
+                                <h3 class="about__info-statistics-title">Количество книг в библиотеке:</h3>
+                                <p class="about__info-statistics-count">{{ all_instance_count }}</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="about__info-statistics">
+                            <div class="about__info-statistics-image">
+                                <img src="{% static 'img/cross.svg' %}" alt="">
+                            </div>
+                            <div>
+                                <h3 class="about__info-statistics-title">Количество книг на руках у читателей:</h3>
+                                <p class="about__info-statistics-count">{{ all_not_available_instance_count }}</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="about__info-statistics">
+                            <div class="about__info-statistics-image">
+                                <img src="{% static 'img/reader.svg' %}" alt="">
+                            </div>
+                            <div>
+                                <h3 class="about__info-statistics-title">Количество читателей:</h3>
+                                <p class="about__info-statistics-count"></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            <section class="popular">
+                <h2 class="popular__title">Хиты</h2>
+                <div class="popular__container">
+                    {% for book in popular_books %}
+                        <a href="#">
+                            <div class="popular__container-item">
+                                {% for photo in book.bookphoto_set.all %}
+                                    {% if forloop.first %}
+                                        <div class="popular__container-item-image">
+                                            <img src="{{ photo.photo.url }}" alt="">
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="popular__container-item-info">
+                                    <div class="popular__container-item-info-rating">
+                                        <p>{{ book.rating }}</p>
+                                        <div class="popular__container-item-info-rating-image">
+                                            <img src="{% static 'img/star.svg' %}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="popular__container-item-info-readers">
+                                       прочитали
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+            <section class="income">
+                    <h2 class="income__title">Доходы библиотеки</h2>
+                    <div>
 
+                    </div>
+            </section>
+        {% endblock %}
+    </main>
+    <footer>
+        <div class="footer-address">
+            <div class="footer-address-street">
+                <div class="footer-address-street-image">
+                    <img src="{% static 'img/address.svg' %}" alt="">
+                </div>
+                <p>г. Минск, пр-т. Дзержиского</p>
+            </div>
+            <div class="footer-address-metro">
+                <div class="footer-address-metro-image">
+                    <img src="{% static 'img/metro.svg' %}" alt="">
+                </div>
+                <p>Грушевка</p>
+            </div>
+        </div>
+        <div class="footer-number">
+            <div class="footer-number-image">
+                <img src="{% static 'img/number.svg' %}" alt="">
+            </div>
+            <a href="tel:+375296741796">+375 (29) 674-17-96</a>
+        </div>
+        <div class="footer-email">
+            <p>bookisle@mail.ru</p>
+        </div>
+        <div class="footer-instagram">
+            <a href="https://www.instagram.com/kohan_anastasiya/" target="_blank">
+                <img src="{% static 'img/instagram.svg' %}" alt="">
+            </a>
+        </div>
+        <div class="footer-schedule">
+            <div class="footer-schedule-image">
+                <img src="{% static 'img/schedule.svg' %}" alt="">
+            </div>
+            <p class="footer-schedule-weekdays"><b>пн-пт:</b> 10:00-20:00<p>
+            <p class="footer-schedule-weekends"><b>сб-вс:</b> вых.<p>
+        </div>
+    </footer>
 </body>
 </html>

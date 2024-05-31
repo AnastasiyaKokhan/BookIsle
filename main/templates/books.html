@@ -1,10 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'main.html' %}
 
-</body>
-</html>
+{% load mptt_tags %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/books.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Books</title>
+{% endblock %}
+
+{% block main %}
+    <section class="caption">
+        {% if search %}
+            <h2 class="caption__title">Поиск по "{{ search }}"</h2>
+        {% else %}
+            <h2 class="caption__title">Книги</h2>
+        {% endif %}
+        <a href="{% url 'add_book' %}" class="caption__add_book">
+           <div class="caption__add_book-button">
+               <p>Добавить книгу</p>
+               <div class="caption__add_book-button-image">
+                   <img src="{% static 'img/plus.svg' %}" alt="">
+               </div>
+           </div>
+       </a>
+    </section>
+    <section class="main">
+        <div class="filter">
+            <h3 class="filter__title">
+                Жанры
+            </h3>
+            <form action="" class="filter__genre">
+                {% csrf_token %}
+                {% recursetree genres %}
+                    <div class="filter__genre-list">
+                        <div class="filter__genre-list-parent">
+                            <input
+                                    type="checkbox"
+                                    name="parent"
+                                    value="{{ node.id }}"
+                                    id="{{ node.id }}"
+                                    class="filter__genre-list-parent-input"
+                            >
+                            <label for="{{ node.id }}" class="filter__genre-list-label">{{ node.name }}</label>
+                        </div>
+                        {% if not node.is_leaf_node %}
+                            <div class="filter__genre-list-children">
+                                {% for child in node.get_children %}
+                                <div class="filter__genre-list-children-child">
+                                    <input
+                                            type="checkbox"
+                                            name="child"
+                                            value="{{ child.id }}"
+                                            id="{{ child.id }}"
+                                            class="filter__genre-list-children-child-input"
+                                    >
+                                    <label for="{{ child.id }}" class="filter__genre-list-label">{{ child.name }}</label>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endrecursetree %}
+                <input type="submit" value="Применить фильтры" class="filter__genre-button">
+            </form>
+        </div>
+        <div class="books">
+            {% if books %}
+               <table cellspacing="0">
+                   <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th>Авторы</th>
+                        <th>Год издания</th>
+                        <th>Всего</th>
+                        <th>Доступно</th>
+                    </tr>
+                   </thead>
+                   <tbody>
+                    {% for book in page_books %}
+                        <tr>
+                            <th>
+                                <a href="#" class="title_link">
+                                   <p class="russian_title">{{ book.russian_title }}</p>
+                                    {% if book.original_title %}
+                                        <p class="original_title">{{ book.original_title }}</p>
+                                    {% endif %}
+                                </a>
+                            </th>
+                            <th>
+                                <ul>
+                                    {% for author in book.author.all %}
+                                        <li>{{ author.first_name }} {{ author.last_name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </th>
+                            <th>
+                                {{ book.publication_date|default_if_none:"-" }}
+                            </th>
+                            <th>
+                                {{ book.instance_count }} шт.
+                            </th>
+                            <th>
+                                {{ book.count_available_book_instances }} шт.
+                            </th>
+                        </tr>
+                    {% endfor %}
+                   </tbody>
+                </table>
+                <div class="books__paginator">
+                    <p>Страница {{ page_books.number }} из {{ page_books.paginator.num_pages }}</p>
+                    <div class="books__paginator-arrows">
+                        {% if page_books.has_previous %}
+                            <a href="?page={{ page_books.previous_page_number }}">
+                                <div class="books__paginator-arrows-image">
+                                    <img src="{% static 'img/previous_page.svg' %}" alt="">
+                                </div>
+                            </a>
+                        {% endif %}
+                        {% if page_books.has_next %}
+                            <a href="?page={{ page_books.next_page_number }}">
+                                <div class="books__paginator-arrows-image">
+                                    <img src="{% static 'img/next_page.svg' %}" alt="">
+                                </div>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <p class="not_found">По вашему запросу ничего не найдено</p>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
