@@ -13,40 +13,38 @@
 </head>
 <body>
     <header>
-        <div class="header">
-            <a href="{% url 'main' %}">
-                <div class="header__logo">
-                    <div class="header__logo-image">
-                        <img src="{% static 'img/logo.svg' %}" alt="">
-                    </div>
-                    <h1 class="header__up-logo-title">Book Isle</h1>
+        <a href="{% url 'main' %}">
+            <div class="header__logo">
+                <div class="header__logo-image">
+                    <img src="{% static 'img/logo.svg' %}" alt="">
                 </div>
-            </a>
-            <div class="header__search">
-                <div class="header__search-image">
-                    <img src="{% static 'img/search.svg' %}" alt="">
-                </div>
-                <form action="{% url 'book_search' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="text" name="search" id="search" placeholder="Поиск" minlength="3"/>
-                </form>
+                <h1 class="header__up-logo-title">Book Isle</h1>
             </div>
-            <div class="header__user">
-                <div class="header__user-photo">
-                    <img src="{% static 'img/no_user_photo.svg' %}" alt="">
-                </div>
-                <div class="header__user-name">
-                    <p>Фамилия Имя</p>
-                </div>
+        </a>
+        <div class="header__search">
+            <div class="header__search-image">
+                <img src="{% static 'img/search.svg' %}" alt="">
+            </div>
+            <form action="{% url 'book_search' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="search" id="search" placeholder="Поиск" minlength="3"/>
+            </form>
+        </div>
+        <div class="header__user">
+            <div class="header__user-photo">
+                <img src="{% static 'img/no_user_photo.svg' %}" alt="">
+            </div>
+            <div class="header__user-name">
+                <p>Фамилия Имя</p>
             </div>
         </div>
-        <nav>
-            <a href="{% url 'main' %}">Главная</a>
-            <a href="{% url 'books' %}">Книги</a>
-            <a href="#">Читатели</a>
-            <a href="#">Корзина</a>
-        </nav>
     </header>
+    <nav>
+        <a href="{% url 'main' %}">Главная</a>
+        <a href="{% url 'books' %}">Книги</a>
+        <a href="#">Читатели</a>
+        <a href="#">Корзина</a>
+    </nav>
     <main>
         {% block main %}
             <section class="about">
@@ -93,7 +91,7 @@
                 <h2 class="popular__title">Хиты</h2>
                 <div class="popular__container">
                     {% for book in popular_books %}
-                        <a href="#">
+                        <a href="{{ book.get_absolute_url }}">
                             <div class="popular__container-item">
                                 {% for photo in book.bookphoto_set.all %}
                                     {% if forloop.first %}

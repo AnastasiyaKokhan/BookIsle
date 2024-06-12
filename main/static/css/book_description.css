@@ -1,0 +1,222 @@
+.main {
+    padding: 25px 40px 20px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+}
+
+.description__title {
+    text-align: center;
+    color: #173F5F;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.description__details {
+    padding: 30px 0px 0px 0px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.description__image-wrap {
+    height: 550px;
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.description__image {
+    height: 100%;
+    width: 400px;
+}
+
+.description__image img {
+    height: 100%;
+    width: 100%;
+}
+
+.description__image-list {
+    height: 100%;
+    width: 30%;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+
+.description__image-list-item {
+    height: 200px;
+    width: 150px;
+}
+
+.description__image-list img {
+    height: 100%;
+    width: 100%;
+}
+
+.description__details-text {
+    padding: 20px 40px 20px 40px;
+    height: 100%;
+    width: 800px;
+    background: white;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    border-radius: 10px;
+    color: black;
+    font-size: 18px;
+}
+
+.instances {
+    margin: 15px 0px 15px 0px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.instances__caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.instances__caption-title {
+    color: #173F5F;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.instances__caption-add_instance-button {
+    padding: 7px 9px 7px 9px;
+    background: #F6F6F7;
+    border: 2px solid #B0C4DE;
+    border-radius: 50px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #173F5F;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.instances__caption-add_instance-button:hover {
+    background: #B0C4DE;
+    color: #173F5F;
+}
+
+.instances__caption-add_instance-button-image {
+    height: 15px;
+    width: 15px;
+}
+
+.instances__caption-add_instance-button-image img {
+    height: 100%;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+thead {
+    background: #B0C4DE;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+thead th {
+    padding: 8px 13px 8px 13px;
+    border-bottom: 1px solid #F6F6F7;
+}
+
+thead th:nth-child(1) {
+    width: 10%;
+}
+
+thead th:nth-child(2) {
+    width: 30%;
+}
+
+thead th:nth-child(3) {
+    width: 15%;
+}
+
+thead th:nth-child(4) {
+    width: 15%;
+}
+
+thead th:nth-child(5) {
+    width: 10%;
+}
+
+thead th:nth-child(6) {
+    width: 10%;
+}
+
+thead th:nth-child(7) {
+    width: 10%;
+}
+
+tbody {
+    background: white;
+    color: black;
+    font-size: 16px;
+}
+
+tbody tr:hover {
+    color: SlateGray;
+    cursor: pointer;
+}
+
+tbody th {
+    padding: 7px 5px 7px 10px;
+    border-bottom: 1px solid #F6F6F7;
+    border-top: 1px solid #F6F6F7;
+}
+
+.edit_button {
+    padding: 3px 5px 3px 5px;
+    background: #16a085;
+    border-radius: 7px;
+    color: white;
+    font-size: 16px;
+}
+
+.delete_button {
+    padding: 3px 5px 3px 5px;
+    background: #e74c3c;
+    border-radius: 7px;
+    color: white;
+    font-size: 16px;
+}
+
+.instances__paginator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #173F5F;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.instances__paginator-arrows {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.instances__paginator-arrows-image {
+    height: 35px;
+    width: 40px;
+}
+
+.instances__paginator-arrows-image img {
+    height: 100%;
+    width: 100%;
+}
