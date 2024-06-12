@@ -1,9 +1,147 @@
 {% extends 'main.html' %}
+
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/book_description.css' %}">
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/book_description.css' %}">
+{% endblock %}
+
 {% block title %}
 <title>Description</title>
 {% endblock %}
-{% block main %}
 
+{% block main %}
+    <div class="main">
+        <section class="description">
+            <h2 class="description__title">{{ book.russian_title }}</h2>
+            <div class="description__details">
+                <div class="description__image-wrap">
+                    {% for photo in book.bookphoto_set.all %}
+                        {% if forloop.first %}
+                            <div class="description__image">
+                                <img src="{{ photo.photo.url }}" alt="">
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <ul class="description__image-list">
+                        {% for photo in book.bookphoto_set.all %}
+                        <li class="description__image-list-item description____image-list-item-active">
+                            <img src="{{ photo.photo.url }}" alt="product">
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="description__details-text">
+                    {% if book.original_title %}
+                        <p><b>Наименование книги:</b> {{ book.original_title }}.</p>
+                    {% else %}
+                        <p><b>Наименование книги:</b> {{ book.russian_title }}.</p>
+                    {% endif %}
+                    <p>
+                        <b>Авторы:</b>
+                        {% for author in book.author.all %}
+                            {{ author.first_name}} {{ author.last_name}}{% if not forloop.last %}, {% else %}.{% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>
+                        <b>Жанры:</b>
+                        {% for genre in book.genre.all %}
+                            {{ genre.name|lower }}{% if not forloop.last %}, {% else %}.{% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>
+                        <b>Год издания:</b>
+                        {% if book.publication_date %}
+                            {{ book.publication_date }} г.
+                        {% else %}
+                            не указан.
+                        {% endif %}
+                    </p>
+                    <p>
+                        <b>Количество страниц:</b>
+                        {% if book.page_count %}
+                            {{ book.page_count }} стр.
+                        {% else %}
+                            не указано.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section class="instances">
+            <div class="instances__caption">
+                {% if page_instances %}
+                    <h3 class="instances__caption-title">Экземпляры книги:</h3>
+                {% else %}
+                    <h3 class="instances__caption-title">Нет экземпляров</h3>
+                {% endif %}
+                <a href="#" class="instances__caption-add_instance">
+                   <div class="instances__caption-add_instance-button">
+                       <p>Добавить экземпляр</p>
+                       <div class="instances__caption-add_instance-button-image">
+                           <img src="{% static 'img/plus.svg' %}" alt="">
+                       </div>
+                   </div>
+               </a>
+            </div>
+            {% if book.bookinstance_set.all %}
+               <table cellspacing="0">
+                   <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Стоимость</th>
+                        <th>Цена за день использования</th>
+                        <th>Дата добавления</th>
+                        <th>В корзину</th>
+                        <th>Изменить</th>
+                        <th>Удалить</th>
+                    </tr>
+                   </thead>
+                   <tbody>
+                    {% for instance in page_instances %}
+                        <tr>
+                            <th>{{ instance.id }}</th>
+                            <th>{{ instance.price }} р.</th>
+                            <th>{{ instance.price_per_day }} р.</th>
+                            <th>{{ instance.registration_date }}</th>
+                            <th>
+
+                            </th>
+                            <th>
+                                <a href="#" class="edit_button">
+                                    Изменить
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{% url 'delete_book_instance' instance.id %}" class="delete_button">
+                                    Удалить
+                                </a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                   </tbody>
+                </table>
+                <div class="instances__paginator">
+                    <p>Страница {{ page_instances.number }} из {{ page_instances.paginator.num_pages }}</p>
+                    <div class="instances__paginator-arrows">
+                        {% if page_instances.has_previous %}
+                            <a href="?page={{ page_instances.previous_page_number }}">
+                                <div class="instances__paginator-arrows-image">
+                                    <img src="{% static 'img/previous_page.svg' %}" alt="">
+                                </div>
+                            </a>
+                        {% elif page_instances.has_next %}
+                            <a href="?page={{ page_instances.next_page_number }}">
+                                <div class="instances__paginator-arrows-image">
+                                    <img src="{% static 'img/next_page.svg' %}" alt="">
+                                </div>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+
+    <script src="{% static 'js/select_images.js' %}"></script>
 {% endblock %}

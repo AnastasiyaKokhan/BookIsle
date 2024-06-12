@@ -75,15 +75,9 @@ class Book(models.Model):
 
     def save(self, *args, **kwargs):
         if self.original_title:
-            self.slug = f'{slugify(self.original_title)}'
+            self.slug = f'{slugify(self.original_title)}-{self.publication_date}-{self.page_count}'
         else:
-            self.slug = f'{slugify(self.russian_title)}'
-        slug = self.slug
-        suffix = 1
-        while Book.objects.filter(slug=slug).exists():
-            slug = f"{self.slug}-{suffix}"
-            suffix += 1
-        self.slug = slug
+            self.slug = f'{slugify(self.russian_title)}-{self.publication_date}-{self.page_count}'
         return super(Book, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -105,6 +99,7 @@ class BookInstance(models.Model):
     status = models.CharField(max_length=13, choices=STATUS, default='available', verbose_name='Статус')
 
     class Meta:
+        ordering = ['price', ]
         verbose_name = 'Экземпляр книги'
         verbose_name_plural = 'Экземпляры книг'
 

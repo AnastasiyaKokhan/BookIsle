@@ -28,11 +28,12 @@
        </a>
     </section>
     <section class="main">
+
         <div class="filter">
             <h3 class="filter__title">
                 Жанры
             </h3>
-            <form action="" class="filter__genre">
+            <form action="" method="POST" class="filter__genre">
                 {% csrf_token %}
                 {% recursetree genres %}
                     <div class="filter__genre-list">
@@ -68,7 +69,7 @@
             </form>
         </div>
         <div class="books">
-            {% if books %}
+            {% if page_books %}
                <table cellspacing="0">
                    <thead>
                     <tr>
@@ -81,14 +82,12 @@
                    </thead>
                    <tbody>
                     {% for book in page_books %}
-                        <tr>
+                        <tr onclick="window.location.href='{{ book.get_absolute_url }}'; return false">
                             <th>
-                                <a href="#" class="title_link">
-                                   <p class="russian_title">{{ book.russian_title }}</p>
-                                    {% if book.original_title %}
-                                        <p class="original_title">{{ book.original_title }}</p>
-                                    {% endif %}
-                                </a>
+                                {{ book.russian_title }}
+                                {% if book.original_title %}
+                                    <p class="original_title">{{ book.original_title }}</p>
+                                {% endif %}
                             </th>
                             <th>
                                 <ul>
@@ -111,27 +110,48 @@
                    </tbody>
                 </table>
                 <div class="books__paginator">
-                    <p>Страница {{ page_books.number }} из {{ page_books.paginator.num_pages }}</p>
-                    <div class="books__paginator-arrows">
-                        {% if page_books.has_previous %}
-                            <a href="?page={{ page_books.previous_page_number }}">
-                                <div class="books__paginator-arrows-image">
-                                    <img src="{% static 'img/previous_page.svg' %}" alt="">
-                                </div>
-                            </a>
-                        {% endif %}
-                        {% if page_books.has_next %}
+                    <div class="books__paginator-links">
+                        {% if page_books.has_other_pages %}
+                            {% if page_books.has_previous %}
+                                <a href="?page={{ page_books.previous_page_number }}">
+                                    <div class="books__paginator-links-img">
+                                        <img src="{% static 'img/previous_page_2.svg' %}" alt="">
+                                    </div>
+                                </a>
+                            {% endif %}
+                            {% for page_number in page_books.paginator.page_range %}
+                                {% if page_books.number == page_number %}
+                                    <a href="?page={{ page_number }}">
+                                        <p class="books__paginator-links-page_num-selected">
+                                            {{ page_number }}
+                                        </p>
+                                    </a>
+                                {% else %}
+                                    <a href="?page={{ page_number }}">
+                                        <p class="books__paginator-links-page_num">
+                                            {{ page_number }}
+                                        </p>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_books.has_next %}
                             <a href="?page={{ page_books.next_page_number }}">
-                                <div class="books__paginator-arrows-image">
-                                    <img src="{% static 'img/next_page.svg' %}" alt="">
+                                <div class="books__paginator-links-img">
+                                    <img src="{% static 'img/next_page_2.svg' %}" alt="">
                                 </div>
                             </a>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
             {% else %}
-                <p class="not_found">По вашему запросу ничего не найдено</p>
+                <div class="books__not_found">
+                    <p>По вашему запросу ничего не найдено</p>
+                    <a href="{% url 'books' %}">Смотреть все книги</a>
+                </div>
             {% endif %}
         </div>
     </section>
+
+    <script src="{% static 'js/check_children.js' %}"></script>
 {% endblock %}

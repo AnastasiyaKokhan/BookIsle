@@ -1,9 +1,17 @@
 {% extends 'main.html' %}
+
+{% load crispy_forms_tags %}
+
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/add_book.css' %}">
-{% block title %}
-<title>Add book</title>
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/add_book.css' %}">
 {% endblock %}
+
+{% block title %}
+    <title>Add book</title>
+{% endblock %}
+
 {% block main %}
 
 {% endblock %}
