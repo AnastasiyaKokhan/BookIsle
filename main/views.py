@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
-from .models import Book, Genre, Author, BookInstance
+from .models import Book, Genre, Author, BookInstance, BookPhoto, AuthorPhoto
 
 
 # Create your views here.
@@ -27,22 +27,15 @@ def get_main_page(request):
 def get_books_page(request):
     books = Book.objects.all()
     genres = Genre.objects.all()
+    errors = {}
 
     if request.method == 'POST':
-        get_parent = request.POST.getlist('parent')
         get_children = request.POST.getlist('child')
-        if request.POST.get('parent'):
-            checked_parent = genres.filter(id__in=get_parent)
-            books_by_parent = Book.objects.filter(genre__in=checked_parent)
-            books = books_by_parent
-            if request.POST.get('child'):
-                checked_children = genres.filter(id__in=get_children)
-                books_by_children = Book.objects.filter(genre__in=checked_children).distinct()
-                books = list(chain(books_by_parent, books_by_children))
-        else:
+        if get_children:
             checked_children = genres.filter(id__in=get_children)
-            books_by_children = Book.objects.filter(genre__in=checked_children).distinct()
-            books = books_by_children
+            books = Book.objects.filter(genre__in=checked_children).distinct()
+        else:
+            errors['filtration'] = '* жанры не выбраны'
 
     paginator = Paginator(books, 20)
     if 'page' in request.GET:
@@ -54,6 +47,7 @@ def get_books_page(request):
     context = {
         'books': books,
         'genres': genres,
+        'errors': errors,
         'page_books': page_books,
     }
 
@@ -119,9 +113,56 @@ def delete_book_instance(request, id):
 
 
 def get_add_book_page(request):
+    authors = Author.objects.all()
+    genres = Genre.objects.all()
+
+    if request.method == "POST":
+        author_ids = request.POST.getlist('author_choice')
+        selected_authors = authors.filter(id__in=author_ids)
+        new_authors = []
+        for author_index in range(10):
+            first_name = request.POST.get(f'new_author_first_name_{author_index}')
+            last_name = request.POST.get(f'new_author_last_name_{author_index}')
+            patronymic = request.POST.get(f'new_author_patronymic_{author_index}')
+            if last_name:
+                new_author = Author(first_name=first_name, last_name=last_name, patronymic=patronymic)
+                new_author.save()
+                new_authors.append(new_author)
+                author_photos = request.FILES.getlist(f'new_author_photos_{author_index}')
+                for photo in author_photos:
+                    author_photo_instance = AuthorPhoto(author=new_author, photo=photo)
+                    author_photo_instance.save()
+
+        new_book = Book(
+            russian_title=request.POST.get('russian_title'),
+            original_title=request.POST.get('original_title'),
+            publication_date=request.POST.get('publication_date') or None,
+            page_count=request.POST.get('page_count') or None
+        )
+        new_book.save()
+
+        book_photos = request.FILES.getlist('book_photos')
+        for photo in book_photos:
+            book_photo_instance = BookPhoto(book=new_book, photo=photo)
+            book_photo_instance.save()
+
+        authors = list(chain(selected_authors, new_authors))
+        new_book.author.set(authors)
+
+        genre_ids = request.POST.getlist('child')
+        new_book.genre.set(genre_ids)
+
+        price = request.POST.get('price')
+        price_per_day = request.POST.get('price_per_day')
+        instance_count = int(request.POST.get('instance_count'))
+        for book_instance in range(instance_count):
+            new_book_instance = BookInstance(book=new_book, price=price, price_per_day=price_per_day)
+            new_book_instance.save()
+        return redirect('books')
 
     context = {
-
+        'authors': authors,
+        'genres': genres,
     }
 
     return render(request, 'add_book.html', context)

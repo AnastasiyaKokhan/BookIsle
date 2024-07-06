@@ -169,7 +169,7 @@ tbody {
 }
 
 tbody tr:hover {
-    color: SlateGray;
+    background: #F6F6F7;
     cursor: pointer;
 }
 
@@ -179,20 +179,37 @@ tbody th {
     border-top: 1px solid #F6F6F7;
 }
 
+.add_to_cart_button img {
+    height: 20px;
+    width: 20px;
+}
+
 .edit_button {
     padding: 3px 5px 3px 5px;
-    background: #16a085;
+    background: white;
+    border: 2px solid #B0C4DE;
     border-radius: 7px;
-    color: white;
+    color: #173F5F;
     font-size: 16px;
 }
 
 .delete_button {
     padding: 3px 5px 3px 5px;
-    background: #e74c3c;
+    background: white;
+    border: 2px solid #fadbd8;
     border-radius: 7px;
-    color: white;
+    color: #e74c3c;
     font-size: 16px;
+}
+
+.edit_button:hover {
+    background: #B0C4DE;
+    color: #173F5F;
+}
+
+.delete_button:hover {
+    background: #fadbd8;
+    color:  #cb4335;
 }
 
 .instances__paginator {

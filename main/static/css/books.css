@@ -138,6 +138,11 @@
     cursor: pointer;
 }
 
+.filter__errors {
+    color: #DC143C;
+    font-size: 16px;
+}
+
 .books {
     width: 72%;
 }
@@ -185,7 +190,7 @@ tbody {
 }
 
 tbody tr:hover {
-    color: SlateGray;
+    background: #F6F6F7;
     cursor: pointer;
 }
 

@@ -1,1 +1,132 @@
+.main {
+    padding: 25px 40px 20px 40px;
+}
 
+form {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+form label {
+    font-size: 15px;
+    color: black;
+}
+
+form input[type=text] {
+    padding: 8px 12px 8px 20px;
+    width: 350px;
+    background: white;
+    border: 1px solid #a7acb1;
+    border-radius: 4px;
+    color: black;
+    font-size: 15px;
+}
+
+form input[type=file] {
+    color: black;
+}
+
+form input[type=number] {
+    padding: 8px 12px 8px 20px;
+    width: 200px;
+    background: white;
+    border: 1px solid #a7acb1;
+    border-radius: 4px;
+    color: black;
+    font-size: 15px;
+}
+
+form input[type=checkbox] {
+    margin: 0px 5px 0px 0px;
+    height: 15px;
+    width: 15px;
+}
+
+form input[type=checkbox]:hover + label {
+   color: SlateGray;
+   cursor: pointer;
+}
+
+form input[type=submit] {
+    padding: 7px 10px 7px 10px;
+    width: 100px;
+    border-radius: 10px;
+    background: #B0C4DE;
+    color: #173F5F;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.author_list {
+    display: flex;
+}
+
+.new_authors {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.first_author {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.new_author_inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.new_author_photos {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.new_author_inputs input[type=text] {
+    width: 200px;
+}
+
+.added_author_inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.added_author {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.added_author_inputs input[type=text] {
+    width: 200px;
+}
+
+.plus {
+    margin: 0px 0px 10px 0px;
+    height: 18px;
+    width: 18px;
+}
+
+.plus img {
+    height: 100%;
+    width: 100%;
+}
+
+.genre-parent {
+    margin: 4px 0px 4px 0px;
+    display: flex;
+}
+
+.filter__genre-list-children {
+    margin: 2px 0px 2px 0px;
+}
+
+.filter__genre-list-children-child {
+    padding: 0px 0px 0px 15px;
+    margin: 2px 0px 2px 0px;
+    display: flex;
+}

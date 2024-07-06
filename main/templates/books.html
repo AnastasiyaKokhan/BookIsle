@@ -28,7 +28,6 @@
        </a>
     </section>
     <section class="main">
-
         <div class="filter">
             <h3 class="filter__title">
                 Жанры
@@ -67,6 +66,11 @@
                 {% endrecursetree %}
                 <input type="submit" value="Применить фильтры" class="filter__genre-button">
             </form>
+            <p class="filter__errors">
+                {% if errors %}
+                    {{ errors.filtration }}
+                {% endif %}
+            </p>
         </div>
         <div class="books">
             {% if page_books %}
