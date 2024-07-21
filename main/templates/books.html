@@ -114,37 +114,20 @@
                    </tbody>
                 </table>
                 <div class="books__paginator">
-                    <div class="books__paginator-links">
-                        {% if page_books.has_other_pages %}
-                            {% if page_books.has_previous %}
-                                <a href="?page={{ page_books.previous_page_number }}">
-                                    <div class="books__paginator-links-img">
-                                        <img src="{% static 'img/previous_page_2.svg' %}" alt="">
-                                    </div>
-                                </a>
-                            {% endif %}
-                            {% for page_number in page_books.paginator.page_range %}
-                                {% if page_books.number == page_number %}
-                                    <a href="?page={{ page_number }}">
-                                        <p class="books__paginator-links-page_num-selected">
-                                            {{ page_number }}
-                                        </p>
-                                    </a>
-                                {% else %}
-                                    <a href="?page={{ page_number }}">
-                                        <p class="books__paginator-links-page_num">
-                                            {{ page_number }}
-                                        </p>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                            {% if page_books.has_next %}
-                            <a href="?page={{ page_books.next_page_number }}">
-                                <div class="books__paginator-links-img">
-                                    <img src="{% static 'img/next_page_2.svg' %}" alt="">
+                    <p>Страница {{ page_books.number }} из {{ page_books.paginator.num_pages }}</p>
+                    <div class="books__paginator-arrows">
+                        {% if page_books.has_previous %}
+                            <a href="?page={{ page_books.previous_page_number }}">
+                                <div class="books__paginator-arrows-image">
+                                    <img src="{% static 'img/previous_page.svg' %}" alt="">
                                 </div>
                             </a>
-                            {% endif %}
+                        {% elif page_books.has_next %}
+                            <a href="?page={{ page_books.next_page_number }}">
+                                <div class="books__paginator-arrows-image">
+                                    <img src="{% static 'img/next_page.svg' %}" alt="">
+                                </div>
+                            </a>
                         {% endif %}
                     </div>
                 </div>

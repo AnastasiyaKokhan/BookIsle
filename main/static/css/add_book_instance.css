@@ -1,0 +1,48 @@
+.main {
+    padding: 25px 40px 25px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add_book_instance {
+    padding: 30px 40px 30px 40px;
+    margin: 100px 0px 100px 0px;
+    width: 550px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: left;
+}
+
+.add_book_instance tr {
+    height: 50px;
+}
+
+.add_book_instance label {
+    font-size: 17px;
+    color: black;
+}
+
+.add_book_instance input[type=number] {
+    padding: 8px 12px 8px 20px;
+    width: 200px;
+    background: white;
+    border: 1px solid #a7acb1;
+    border-radius: 4px;
+    color: black;
+    font-size: 17px;
+}
+
+.add_book_instance input[type=submit] {
+    padding: 7px 10px 7px 10px;
+    margin-top: 30px;
+    width: 110px;
+    border-radius: 10px;
+    background: #B0C4DE;
+    color: #173F5F;
+    font-size: 17px;
+    font-weight: bold;
+}

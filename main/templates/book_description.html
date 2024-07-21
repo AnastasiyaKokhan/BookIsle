@@ -75,7 +75,7 @@
                 {% else %}
                     <h3 class="instances__caption-title">Нет экземпляров</h3>
                 {% endif %}
-                <a href="#" class="instances__caption-add_instance">
+                <a href="{% url 'add_book_instance' book.slug %}" class="instances__caption-add_instance">
                    <div class="instances__caption-add_instance-button">
                        <p>Добавить экземпляр</p>
                        <div class="instances__caption-add_instance-button-image">
@@ -117,7 +117,7 @@
                                 </a>
                             </th>
                             <th>
-                                <a href="{% url 'delete_book_instance' instance.id %}" class="delete_button">
+                                <a href="{% url 'delete_book_instance' instance.id %}" onclick="clicked(event)" class="delete_button">
                                     Удалить
                                 </a>
                             </th>
@@ -148,4 +148,5 @@
     </div>
 
     <script src="{% static 'js/select_images.js' %}"></script>
+    <script src="{% static 'js/delete_instances.js' %}"></script>
 {% endblock %}

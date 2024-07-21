@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load mptt_tags %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/add_book_instance.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Add book</title>
+{% endblock %}
+
+{% block main %}
+    <div class="main">
+        <form action="" method="POST" class="add_book_instance">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Сохранить">
+        </form>
+    </div>
+{% endblock %}

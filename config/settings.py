@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
     'debug_toolbar',
+    'mptt',
     'crispy_forms',
     'crispy_bootstrap4',
-    'mptt',
 
+    'api',
     'main',
 ]
 

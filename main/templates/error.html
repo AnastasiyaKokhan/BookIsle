@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/error.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Error</title>
+{% endblock %}
+
+{% block main %}
+<div class="main">
+    <div class="image">
+        <img src="{% static 'img/not_found.webp' %}" alt="">
+    </div>
+    <div class="not_found">
+        <p class="not_found__title">Запрашиваемая страница не найдена</p>
+        <div class="not_found__links">
+            <a href="{% url 'books' %}" class="not_found__links-books_link">В каталог</a>
+            <a href="{% url 'main' %}" class="not_found__links-main_link">На главную</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
