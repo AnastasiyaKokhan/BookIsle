@@ -58,8 +58,13 @@ form input[type=submit] {
     font-weight: bold;
 }
 
-.author_list {
+.author {
     display: flex;
+}
+
+.not_found {
+    color: black;
+    font-size: 15px;
 }
 
 .new_authors {

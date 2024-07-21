@@ -52,7 +52,7 @@ class Genre(MPTTModel):
 
 
 class Book(models.Model):
-    slug = models.SlugField(max_length=300, unique=True, blank=True, null=True)
+    slug = models.SlugField(max_length=350, unique=True, blank=True, null=True)
     author = models.ManyToManyField('Author', verbose_name='Автор')
     genre = TreeManyToManyField('Genre', verbose_name='Жанр')
     russian_title = models.CharField(max_length=300, verbose_name='Наименование книги на русском языке')

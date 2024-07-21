@@ -1,5 +1,5 @@
 .caption {
-    padding: 25px 40px 20px 40px;
+    padding: 25px 40px 25px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -213,55 +213,30 @@ tbody th:nth-child(2) {
 }
 
 .books__paginator {
-    padding: 20px 0px 0px 0px;
+    margin: 15px 0px 0px 0px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    color: #173F5F;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.books__paginator-arrows {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
     align-items: center;
 }
 
-.books__paginator-links {
-    display: flex;
-    gap: 5px;
+.books__paginator-arrows-image {
+    height: 35px;
+    width: 40px;
 }
 
-.books__paginator-links-page_num {
-    padding: 6px 12px 6px 12px;
-    border: 2px solid #B0C4DE;
-    border-radius: 50%;
-    color: #173F5F;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.books__paginator-links-page_num:hover {
-    background: #B0C4DE;
-    border: 2px solid #B0C4DE;
-    color: #173F5F;
-}
-
-.books__paginator-links-page_num-selected {
-    padding: 6px 12px 6px 12px;
-    border-radius: 50%;
-    background: #B0C4DE;
-    border: 2px solid #B0C4DE;
-    color: #173F5F;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.books__paginator-links-img {
-    padding: 6px 6px 6px 6px;
-    border: 2px solid #B0C4DE;
-    border-radius: 50%;
-    color: #173F5F;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.books__paginator-links-img:hover {
-    background: #B0C4DE;
-    border: 2px solid #B0C4DE;
-    color: #173F5F;
+.books__paginator-arrows-image img {
+    height: 100%;
+    width: 100%;
 }
 
 .books__not_found {
