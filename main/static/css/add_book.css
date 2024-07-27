@@ -6,11 +6,40 @@ form {
     display: flex;
     gap: 10px;
     flex-direction: column;
+    align-items: flex-start;
+}
+
+.errors {
+    color: #DC143C;
+    font-size: 16px;
+}
+
+.tables {
+    display: flex;
+    gap: 70px;
+    align-items: flex-start;
+}
+
+table {
+    color: black;
+    font-size: 16px;
+}
+
+table td:nth-child(1) {
+    padding: 12px 5px 12px 10px;
+    width: 15%;
+    background: #B0C4DE;
+}
+
+table td:nth-child(2) {
+    padding: 12px 5px 12px 10px;
+    width: 35%;
+    background: white;
 }
 
 form label {
-    font-size: 15px;
     color: black;
+    font-size: 16px;
 }
 
 form input[type=text] {
@@ -20,7 +49,7 @@ form input[type=text] {
     border: 1px solid #a7acb1;
     border-radius: 4px;
     color: black;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 form input[type=file] {
@@ -34,7 +63,7 @@ form input[type=number] {
     border: 1px solid #a7acb1;
     border-radius: 4px;
     color: black;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 form input[type=checkbox] {
@@ -54,20 +83,17 @@ form input[type=submit] {
     border-radius: 10px;
     background: #B0C4DE;
     color: #173F5F;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: bold;
 }
 
-.author {
+.name_inputs {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.not_found {
-    color: black;
-    font-size: 15px;
-}
-
-.new_authors {
+.authors {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -79,18 +105,17 @@ form input[type=submit] {
     gap: 5px;
 }
 
-.new_author_inputs {
+.author_inputs {
     display: flex;
     gap: 10px;
 }
 
-.new_author_photos {
+.author_photos {
     display: flex;
-    flex-direction: column;
     gap: 5px;
 }
 
-.new_author_inputs input[type=text] {
+.author_inputs input[type=text] {
     width: 200px;
 }
 
@@ -104,10 +129,6 @@ form input[type=submit] {
     display: flex;
     flex-direction: column;
     gap: 5px;
-}
-
-.added_author_inputs input[type=text] {
-    width: 200px;
 }
 
 .plus {

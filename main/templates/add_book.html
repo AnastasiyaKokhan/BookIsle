@@ -12,94 +12,132 @@
 
 {% block main %}
     <div class="main">
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form }}
-<!--            <input type="text" name="russian_title" placeholder="На русском языке*" required>-->
-<!--            <input type="text" name="original_title" placeholder="На языке оригинала">-->
-
-<!--            <input type="file" accept="image/*" name="book_photos" required>-->
-<!--            <input type="file" accept="image/*" name="book_photos">-->
-
-<!--            <input type="text" name="search_authors" placeholder="Введите фамилию" id="search_authors">-->
-<!--            <div class="author_list">-->
-
-<!--            </div>-->
-<!--            <div class="selected_authors">-->
-
-<!--            </div>-->
-
-<!--            <div class="new_authors">-->
-<!--                <div class="first_author">-->
-<!--                    <div class="new_author_inputs">-->
-<!--                        <input type="text" name="new_author_last_name_0" placeholder="Фамилия*">-->
-<!--                        <input type="text" name="new_author_first_name_0" placeholder="Имя">-->
-<!--                        <input type="text" name="new_author_patronymic_0" placeholder="Отчество">-->
-<!--                    </div>-->
-<!--                    <div class="new_author_photos">-->
-<!--                        <input type="file" accept="image/*" name="new_author_photos_0">-->
-<!--                        <input type="file" accept="image/*" name="new_author_photos_0">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="added_author_inputs">-->
-
-<!--                </div>-->
-<!--                <div class="plus">-->
-<!--                    <img src="{% static 'img/plus.svg' %}" alt="">-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            {% recursetree genres %}-->
-<!--            <div class="filter__genre-list">-->
-<!--                    <div class="filter__genre-list-parent">-->
-<!--                        <input-->
-<!--                                type="checkbox"-->
-<!--                                name="parent"-->
-<!--                                value="{{ node.id }}"-->
-<!--                                id="{{ node.id }}"-->
-<!--                                class="filter__genre-list-parent-input"-->
-<!--                        >-->
-<!--                        <label for="{{ node.id }}">{{ node.name }}</label>-->
-<!--                    </div>-->
-<!--                    {% if not node.is_leaf_node %}-->
-<!--                        <div class="filter__genre-list-children">-->
-<!--                            {% for child in node.get_children %}-->
-<!--                            <div class="filter__genre-list-children-child">-->
-<!--                                <input-->
-<!--                                        type="checkbox"-->
-<!--                                        name="child"-->
-<!--                                        value="{{ child.id }}"-->
-<!--                                        id="{{ child.id }}"-->
-<!--                                        class="filter__genre-list-children-child-input"-->
-<!--                                >-->
-<!--                                <label for="{{ child.id }}">{{ child.name }}</label>-->
-<!--                            </div>-->
-<!--                        {% endfor %}-->
-<!--                        </div>-->
-<!--                    {% endif %}-->
-<!--            </div>-->
-<!--            {% endrecursetree %}-->
-
-<!--            <label for="publication_date">Год издания</label>-->
-<!--            <input type="number" name="publication_date" id="publication_date" placeholder="ГГГГ" min="1900" max="3000">-->
-
-<!--            <label for="page_count">Количество страниц</label>-->
-<!--            <input type="number" step="1" name="page_count" id="page_count" min="1" max="5000">-->
-
-<!--            <label for="price">Стоимость</label>-->
-<!--            <input type="number" step="0.01" name="price" id="price" min="0.01" required>-->
-
-<!--            <label for="price_per_day">Цена за день использования</label>-->
-<!--            <input type="number" step="0.01" name="price_per_day" id="price_per_day" min="0.01" required>-->
-
-<!--            <label for="instance_count">Количество экземпляров</label>-->
-<!--            <input type="number" step="1" name="instance_count" id="instance_count" value="1" min="1" required>-->
-
-            <input type="submit" value="Сохранить">
-        </form>
+		<form action="" method="POST" enctype="multipart/form-data">
+        	{% csrf_token %}
+			<div class="tables">
+				<table>
+					<tr>
+						{% if errors %}
+							<td><b>Ошибки</b></td>
+							<td>
+								{% for error in errors %}
+									<p class="errors">{{ error }}</p>
+								{% endfor %}
+							</td>
+						{% endif %}
+					</tr>
+					<tr>
+						<td><b>Наименование книги</b></td>
+						<td>
+							<div class="name_inputs">
+								<input type="text" name="russian_title" placeholder="На русском языке*" required>
+								<input type="text" name="original_title" placeholder="На языке оригинала">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><b>Фотографии обложки книги</b></td>
+						<td>
+							<input type="file" accept="image/*" name="book_photos" required>
+							<input type="file" accept="image/*" name="book_photos">
+						</td>
+					</tr>
+					<tr>
+						<td><b>Авторы</b></td>
+						<td>
+							<div class="authors">
+								<div class="first_author">
+									<div class="author_inputs">
+										<input type="text" name="last_name_0" placeholder="Фамилия*" required>
+										<input type="text" name="first_name_0" placeholder="Имя*" required>
+										<input type="text" name="patronymic_0" placeholder="Отчество">
+									</div>
+									<div class="author_photos">
+										<input type="file" accept="image/*" name="photos_0" required>
+										<input type="file" accept="image/*" name="photos_0">
+									</div>
+								</div>
+								<div class="added_author_inputs">
+								</div>
+								<div class="plus">
+									<img src="{% static 'img/plus.svg' %}" alt="">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><b>Жанры</b></td>
+						<td>
+							{% recursetree genres %}
+								<div class="filter__genre-list">
+										<div class="filter__genre-list-parent">
+											<input
+													type="checkbox"
+													name="parent"
+													value="{{ node.id }}"
+													id="{{ node.id }}"
+													class="filter__genre-list-parent-input"
+											>
+											<label for="{{ node.id }}">{{ node.name }}</label>
+										</div>
+										{% if not node.is_leaf_node %}
+											<div class="filter__genre-list-children">
+												{% for child in node.get_children %}
+												<div class="filter__genre-list-children-child">
+													<input
+															type="checkbox"
+															name="child"
+															value="{{ child.id }}"
+															id="{{ child.id }}"
+															class="filter__genre-list-children-child-input"
+													>
+													<label for="{{ child.id }}">{{ child.name }}</label>
+												</div>
+											{% endfor %}
+											</div>
+										{% endif %}
+								</div>
+							{% endrecursetree %}
+						</td>
+					</tr>
+					<tr>
+						<td><label for="publication_date"><b>Год издания</b></label></td>
+						<td>
+							<input type="number" name="publication_date" id="publication_date" placeholder="ГГГГ" min="1900" max="3000">
+						</td>
+					</tr>
+					<tr>
+						<td><label for="page_count"><b>Количество страниц</b></label></td>
+						<td>
+							<input type="number" step="1" name="page_count" id="page_count" min="1" max="5000">
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td><label for="price"><b>Стоимость</b></label></td>
+						<td>
+							<input type="number" step="0.01" name="price" id="price" min="0.01" required>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="price_per_day"><b>Цена за день использования</b></label></td>
+						<td>
+							<input type="number" step="0.01" name="price_per_day" id="price_per_day" min="0.01" required>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="instance_count"><b>Количество экземпляров</b></label></td>
+						<td>
+							<input type="number" step="1" name="instance_count" id="instance_count" value="1" min="1" required>
+						</td>
+					</tr>
+				</table>
+			</div>
+        	<input type="submit" value="Сохранить">
+    	</form>
     </div>
 
-    <script src="{% static 'js/search_authors.js' %}"></script>
     <script src="{% static 'js/create_inputs.js' %}"></script>
     <script src="{% static 'js/check_children.js' %}"></script>
 {% endblock %}

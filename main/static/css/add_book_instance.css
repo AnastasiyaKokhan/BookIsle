@@ -5,6 +5,11 @@
     align-items: center;
 }
 
+.errorlist {
+    color: #DC143C;
+    font-size: 16px;
+}
+
 .add_book_instance {
     padding: 30px 40px 30px 40px;
     margin: 100px 0px 100px 0px;
