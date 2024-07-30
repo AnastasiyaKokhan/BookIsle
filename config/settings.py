@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     'rest_framework',
     'debug_toolbar',
     'mptt',
+    'rolepermissions',
     'crispy_forms',
     'crispy_bootstrap4',
 
     'api',
     'main',
+    'users',
 ]
 
 MIDDLEWARE = [

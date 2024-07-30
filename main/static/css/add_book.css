@@ -2,7 +2,7 @@
     padding: 25px 40px 20px 40px;
 }
 
-form {
+.add_book_form {
     display: flex;
     gap: 10px;
     flex-direction: column;
@@ -16,7 +16,7 @@ form {
 
 .tables {
     display: flex;
-    gap: 70px;
+    gap: 90px;
     align-items: flex-start;
 }
 
@@ -37,12 +37,12 @@ table td:nth-child(2) {
     background: white;
 }
 
-form label {
+.add_book_form label {
     color: black;
     font-size: 16px;
 }
 
-form input[type=text] {
+.add_book_form input[type=text] {
     padding: 8px 12px 8px 20px;
     width: 350px;
     background: white;
@@ -52,11 +52,11 @@ form input[type=text] {
     font-size: 16px;
 }
 
-form input[type=file] {
+.add_book_form input[type=file] {
     color: black;
 }
 
-form input[type=number] {
+.add_book_form input[type=number] {
     padding: 8px 12px 8px 20px;
     width: 200px;
     background: white;
@@ -66,31 +66,37 @@ form input[type=number] {
     font-size: 16px;
 }
 
-form input[type=checkbox] {
+.add_book_form input[type=checkbox] {
     margin: 0px 5px 0px 0px;
     height: 15px;
     width: 15px;
 }
 
-form input[type=checkbox]:hover + label {
+.add_book_form input[type=checkbox]:hover + label {
    color: SlateGray;
    cursor: pointer;
 }
 
-form input[type=submit] {
+.add_book_form input[type=submit] {
     padding: 7px 10px 7px 10px;
-    width: 100px;
+    width: 160px;
     border-radius: 10px;
     background: #B0C4DE;
-    color: #173F5F;
+    color: black;
     font-size: 16px;
     font-weight: bold;
 }
 
-.name_inputs {
+.book_inputs {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.book_photos {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .authors {
@@ -112,6 +118,7 @@ form input[type=submit] {
 
 .author_photos {
     display: flex;
+    flex-direction: column;
     gap: 5px;
 }
 

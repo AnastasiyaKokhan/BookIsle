@@ -1,0 +1,82 @@
+.main {
+    margin: 100px 0px 100px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.errorlist {
+    color: #DC143C;
+    font-size: 17px;
+}
+
+.sign_up_form {
+    padding: 60px 80px 60px 80px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    gap: 40px;
+    flex-direction: column;
+    text-align: left;
+}
+
+.sign_up_form h2 {
+    color: #173F5F;
+    font-size: 37px;
+}
+
+.sign_up_form table {
+    width: 600px;
+}
+
+.sign_up_form tr {
+    height: 50px;
+}
+
+.sign_up_form table td:nth-child(1) {
+    width: 80%;
+}
+
+.sign_up_form table td:nth-child(2) {
+    width: 20%;
+}
+
+.sign_up_form label {
+    font-size: 17px;
+    color: black;
+    font-weight: bold;
+}
+
+.sign_up_form input {
+    padding: 7px 12px 7px 20px;
+    width: 300px;
+    background: white;
+    border: 1px solid #a7acb1;
+    border-radius: 4px;
+    color: black;
+    font-size: 17px;
+}
+
+.sign_up_form input[type=submit] {
+    padding: 6px 9px 6px 9px;
+    width: 240px;
+    border: 1px solid #B0C4DE;
+    border-radius: 10px;
+    background: #B0C4DE;
+    color: #173F5F;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+.sign_up_form input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+}
+
+.sign_up_form select {
+    margin: 0px 3px 0px 3px;
+    padding: 5px 7px 5px 7px;
+    height: 30px;
+    font-size: 15px;
+}

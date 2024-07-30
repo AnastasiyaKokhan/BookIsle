@@ -21,29 +21,26 @@
                 <h1 class="header__up-logo-title">Book Isle</h1>
             </div>
         </a>
-        <div class="header__search">
-            <div class="header__search-image">
-                <img src="{% static 'img/search.svg' %}" alt="">
+        {% block search %}
+        {% endblock %}
+        {% if user.is_authenticated %}
+            <div class="header__user">
+                <p>{{ user.last_name }} {{ user.first_name }}</p>
+                <a href="{% url 'sign_out' %}">
+                    <div class="header__user-exit">
+                        <img src="{% static 'img/exit.svg' %}" alt="">
+                    </div>
+                </a>
             </div>
-            <form action="{% url 'book_search' %}" method="POST">
-                {% csrf_token %}
-                <input type="text" name="search" id="search" placeholder="Поиск" minlength="3"/>
-            </form>
-        </div>
-        <div class="header__user">
-            <div class="header__user-photo">
-                <img src="{% static 'img/no_user_photo.svg' %}" alt="">
-            </div>
-            <div class="header__user-name">
-                <p>Фамилия Имя</p>
-            </div>
-        </div>
+        {% endif %}
     </header>
     <nav>
-        <a href="{% url 'main' %}">Главная</a>
-        <a href="{% url 'books' %}">Книги</a>
-        <a href="#">Читатели</a>
-        <a href="#">Корзина</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'main' %}">Главная</a>
+            <a href="{% url 'books' %}">Книги</a>
+            <a href="{% url 'readers' %}">Читатели</a>
+            <a href="#">Корзина</a>
+        {% endif %}
     </nav>
     <main>
         {% block main %}
@@ -59,7 +56,7 @@
                             </div>
                             <div>
                                 <h3 class="about__info-statistics-title">Количество книг в библиотеке:</h3>
-                                <p class="about__info-statistics-count">{{ all_instance_count }}</p>
+                                <p class="about__info-statistics-count">{{ instance_count }}</p>
                             </div>
                         </div>
                     </a>
@@ -70,18 +67,18 @@
                             </div>
                             <div>
                                 <h3 class="about__info-statistics-title">Количество книг на руках у читателей:</h3>
-                                <p class="about__info-statistics-count">{{ all_not_available_instance_count }}</p>
+                                <p class="about__info-statistics-count">{{ not_available_instance_count }}</p>
                             </div>
                         </div>
                     </a>
-                    <a href="#">
+                    <a href="{% url 'readers' %}">
                         <div class="about__info-statistics">
                             <div class="about__info-statistics-image">
                                 <img src="{% static 'img/reader.svg' %}" alt="">
                             </div>
                             <div>
                                 <h3 class="about__info-statistics-title">Количество читателей:</h3>
-                                <p class="about__info-statistics-count"></p>
+                                <p class="about__info-statistics-count">{{ readers_count }}</p>
                             </div>
                         </div>
                     </a>

@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/sign_in.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Sign in</title>
+{% endblock %}
+
+{% block main %}
+<div class="main">
+    <form action="" method="POST" class="sign_in_form">
+        {% csrf_token %}
+        <h2>Вход</h2>
+        <table>
+           {{ sign_in_form.as_table }}
+        </table>
+        <input type="submit" value="Войти">
+    </form>
+</div>
+{% endblock %}

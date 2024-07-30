@@ -1,0 +1,89 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/readers.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Readers</title>
+{% endblock %}
+
+{% block search %}
+    <div class="header__search">
+        <div class="header__search-image">
+            <img src="{% static 'img/search.svg' %}" alt="">
+        </div>
+        <form action="{% url 'reader_search' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="search" id="search" placeholder="Поиск по читателям" minlength="3"/>
+        </form>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <div class="caption">
+        {% if search %}
+            <h2 class="caption__title">Поиск по "{{ search }}"</h2>
+        {% else %}
+            <h2 class="caption__title">Читатели</h2>
+        {% endif %}
+        <a href="{% url 'sign_up' %}" class="caption__sign_up_readers">
+           <div class="caption__sign_up_readers-button">
+               <p>Зарегистрировать читателя</p>
+               <div class="caption__sign_up_readers-button-image">
+                   <img src="{% static 'img/plus.svg' %}" alt="">
+               </div>
+           </div>
+       </a>
+    </div>
+    <div class="readers">
+        {% if page_readers %}
+           <table cellspacing="0">
+               <thead>
+                <tr>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Дата рождения</th>
+                    <th>Адрес</th>
+                    <th>Email</th>
+                </tr>
+               </thead>
+               <tbody>
+                {% for reader in page_readers %}
+                    <tr>
+                        <th>{{ reader.first_name }}</th>
+                        <th>{{ reader.last_name }}</th>
+                        <th>{{ reader.profile.birth_date }}</th>
+                        <th>{{ reader.profile.residential_address|default_if_none:"-" }}</th>
+                        <th>{{ reader.email }}</th>
+                    </tr>
+                {% endfor %}
+               </tbody>
+            </table>
+            <div class="readers__paginator">
+                <p>Страница {{ page_readers.number }} из {{ page_readers.paginator.num_pages }}</p>
+                <div class="readers__paginator-arrows">
+                    {% if page_books.has_previous %}
+                        <a href="?page={{ page_readers.previous_page_number }}">
+                            <div class="readers__paginator-arrows-image">
+                                <img src="{% static 'img/previous_page.svg' %}" alt="">
+                            </div>
+                        </a>
+                    {% elif page_books.has_next %}
+                        <a href="?page={{ page_readers.next_page_number }}">
+                            <div class="readers__paginator-arrows-image">
+                                <img src="{% static 'img/next_page.svg' %}" alt="">
+                            </div>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="readers__not_found">
+                <p>По вашему запросу ничего не найдено</p>
+                <a href="{% url 'readers' %}">Смотреть всех читателей</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

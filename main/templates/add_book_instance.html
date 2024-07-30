@@ -15,7 +15,7 @@
         <form action="" method="POST" class="add_book_instance">
             {% csrf_token %}
             <table>
-                {{ form.as_table }}
+                {{ add_book_instance_form.as_table }}
             </table>
             <input type="submit" value="Сохранить">
         </form>

@@ -27,11 +27,11 @@
     font-weight: bold;
 }
 
-.caption__add_book {
+.caption__sign_up_readers {
     display: flex;
 }
 
-.caption__add_book-button {
+.caption__sign_up_readers-button {
     padding: 8px 10px 8px 10px;
     background: #F6F6F7;
     border: 2px solid #B0C4DE;
@@ -44,123 +44,23 @@
     font-weight: bold;
 }
 
-.caption__add_book-button:hover {
+.caption__sign_up_readers-button:hover {
     background: #B0C4DE;
     color: #173F5F;
 }
 
-.caption__add_book-button-image {
+.caption__sign_up_readers-button-image {
     height: 15px;
     width: 15px;
 }
 
-.caption__add_book-button-image img {
+.caption__sign_up_readers-button-image img {
     height: 100%;
     width: 100%;
 }
 
-.main {
+.readers {
     margin: 10px 40px 25px 40px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.filter {
-    padding: 20px 20px 20px 25px;
-    width: 20%;
-    height: 100%;
-    background: white;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.filter__title {
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.filter__genre {
-    padding: 15px 0px 10px 0px;
-}
-
-.filter__genre-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.filter__genre-list-parent {
-    margin: 4px 0px 4px 0px;
-    display: flex;
-}
-
-.filter__genre-list-children {
-    margin: 2px 0px 2px 0px;
-}
-
-.filter__genre-list-children-child {
-    padding: 0px 0px 0px 15px;
-    margin: 2px 0px 2px 0px;
-    display: flex;
-}
-
-.filter__genre-list-parent-input {
-    margin: 0px 5px 0px 0px;
-    width: 19px;
-    height: 19px;
-    border: 2px solid red;
-    border-radius: 4px;
-    background-color: #3CBC8D;
-    color: white;
-}
-
-.filter__genre-list-parent-input:hover + label {
-   color: SlateGray;
-   cursor: pointer;
-}
-
-.filter__genre-list-children-child-input {
-    margin: 0px 5px 0px 0px;
-    width: 16px;
-    height: 16px;
-}
-
-.filter__genre-list-children-child-input:hover + label {
-    color: SlateGray;
-    cursor: pointer;
-}
-
-.filter__genre-list-label {
-    color: black;
-    font-size: 17px;
-}
-
-.filter__genre-button {
-    margin: 15px 0px 0px 0px;
-    padding: 5px 7px 5px 7px;
-    width: 100%;
-    background: white;
-    border: 2px solid #B0C4DE;
-    border-radius: 4px;
-    color: #173F5F;
-    font-size: 16px;
-}
-
-.filter__genre-button:hover {
-    background: #B0C4DE;
-    color: #173F5F;
-    cursor: pointer;
-}
-
-.filter__errors {
-    color: #DC143C;
-    font-size: 16px;
-}
-
-.books {
-    width: 72%;
 }
 
 table {
@@ -180,23 +80,23 @@ thead th {
 }
 
 thead th:nth-child(1) {
-    width: 60%;
+    width: 15%;
 }
 
 thead th:nth-child(2) {
-    width: 20%;
+    width: 15%;
 }
 
 thead th:nth-child(3) {
-    width: 10%;
+    width: 20%;
 }
 
 thead th:nth-child(4) {
-    width: 10%;
+    width: 25%;
 }
 
 thead th:nth-child(5) {
-    width: 10%;
+    width: 25%;
 }
 
 tbody {
@@ -228,7 +128,7 @@ tbody th:nth-child(2) {
     color: grey;
 }
 
-.books__paginator {
+.readers__paginator {
     margin: 15px 0px 0px 0px;
     display: flex;
     justify-content: space-between;
@@ -238,36 +138,36 @@ tbody th:nth-child(2) {
     font-weight: bold;
 }
 
-.books__paginator-arrows {
+.readers__paginator-arrows {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
     align-items: center;
 }
 
-.books__paginator-arrows-image {
+.readers__paginator-arrows-image {
     height: 35px;
     width: 40px;
 }
 
-.books__paginator-arrows-image img {
+.readers__paginator-arrows-image img {
     height: 100%;
     width: 100%;
 }
 
-.books__not_found {
+.readers__not_found {
     display: flex;
     gap: 30px;
     flex-direction: column;
     align-items: center;
 }
 
-.books__not_found p {
+.readers__not_found p {
     color: black;
     font-size: 25px;
 }
 
-.books__not_found a {
+.readers__not_found a {
     padding: 5px 7px 5px 7px;
     background: #F6F6F7;
     border: 2px solid #B0C4DE;
@@ -276,6 +176,6 @@ tbody th:nth-child(2) {
     font-size: 18px;
 }
 
-.books__not_found a:hover {
+.readers__not_found a:hover {
     background: #B0C4DE;
 }

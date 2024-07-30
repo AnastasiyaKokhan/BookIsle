@@ -10,30 +10,46 @@
     font-size: 17px;
 }
 
-.add_book_instance {
-    padding: 30px 40px 30px 40px;
-    width: 550px;
+.sign_in_form {
+    padding: 60px 80px 60px 80px;
     background: white;
     border-radius: 10px;
     display: flex;
     gap: 20px;
     flex-direction: column;
-    justify-content: space-around;
     text-align: left;
 }
 
-.add_book_instance tr {
+.sign_in_form h2 {
+    color: #173F5F;
+    font-size: 37px;
+}
+
+.sign_in_form table {
+    width: 500px;
+}
+
+.sign_in_form tr {
     height: 50px;
 }
 
-.add_book_instance label {
-    font-size: 17px;
-    color: black;
+.sign_in_form table td:nth-child(1) {
+    width: 40%;
 }
 
-.add_book_instance input[type=number] {
-    padding: 8px 12px 8px 20px;
-    width: 200px;
+.sign_in_form table td:nth-child(2) {
+    width: 60%;
+}
+
+.sign_in_form label {
+    font-size: 17px;
+    color: black;
+    font-weight: bold;
+}
+
+.sign_in_form input {
+    padding: 7px 12px 7px 20px;
+    width: 300px;
     background: white;
     border: 1px solid #a7acb1;
     border-radius: 4px;
@@ -41,9 +57,10 @@
     font-size: 17px;
 }
 
-.add_book_instance input[type=submit] {
-    padding: 7px 10px 7px 10px;
+.sign_in_form input[type=submit] {
+    padding: 6px 9px 6px 9px;
     width: 110px;
+    border: 1px solid #B0C4DE;
     border-radius: 10px;
     background: #B0C4DE;
     color: #173F5F;
