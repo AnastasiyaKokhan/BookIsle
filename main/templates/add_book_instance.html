@@ -10,10 +10,23 @@
     <title>Add book</title>
 {% endblock %}
 
+{% block search %}
+    <div class="header__search">
+        <div class="header__search-image">
+            <img src="{% static 'img/search.svg' %}" alt="">
+        </div>
+        <form action="{% url 'book_search' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="search" id="search" placeholder="Поиск по книгам" minlength="3"/>
+        </form>
+    </div>
+{% endblock %}
+
 {% block main %}
     <div class="main">
         <form action="" method="POST" class="add_book_instance">
             {% csrf_token %}
+            <h2>Регистрация экземпляра книги</h2>
             <table>
                 {{ add_book_instance_form.as_table }}
             </table>

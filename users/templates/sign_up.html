@@ -9,6 +9,18 @@
     <title>Sign up</title>
 {% endblock %}
 
+{% block search %}
+    <div class="header__search">
+        <div class="header__search-image">
+            <img src="{% static 'img/search.svg' %}" alt="">
+        </div>
+        <form action="{% url 'reader_search' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="search" id="search" placeholder="Поиск по читателям" minlength="3"/>
+        </form>
+    </div>
+{% endblock %}
+
 {% block main %}
 <div class="main">
     <form action="" method="POST" class="sign_up_form">

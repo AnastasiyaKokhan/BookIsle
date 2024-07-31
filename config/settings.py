@@ -148,3 +148,11 @@ INTERNAL_IPS = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "nastya.kohan@inbox.ru"
+EMAIL_HOST_PASSWORD = "Pn8rgStpcanuVVtYcGQv"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+

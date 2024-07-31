@@ -61,6 +61,7 @@
 
 .readers {
     margin: 10px 40px 25px 40px;
+    min-height: 400px;
 }
 
 table {
@@ -75,7 +76,7 @@ thead {
 }
 
 thead th {
-    padding: 8px 13px 8px 13px;
+    padding: 15px 13px 15px 13px;
     border-bottom: 1px solid #F6F6F7;
 }
 
@@ -111,7 +112,7 @@ tbody tr:hover {
 }
 
 tbody th {
-    padding: 7px 5px 7px 10px;
+    padding: 9px 5px 9px 10px;
     border-bottom: 1px solid #F6F6F7;
     border-top: 1px solid #F6F6F7;
 }

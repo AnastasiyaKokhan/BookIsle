@@ -10,6 +10,18 @@
 <title>Description</title>
 {% endblock %}
 
+{% block search %}
+    <div class="header__search">
+        <div class="header__search-image">
+            <img src="{% static 'img/search.svg' %}" alt="">
+        </div>
+        <form action="{% url 'book_search' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="search" id="search" placeholder="Поиск по книгам" minlength="3"/>
+        </form>
+    </div>
+{% endblock %}
+
 {% block main %}
     <div class="main">
         <section class="description">
