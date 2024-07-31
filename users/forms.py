@@ -1,7 +1,9 @@
 import datetime
 
 from django import forms
+from django.contrib.auth.models import User
 
+from .models import Profile
 from .validators import validate_passport_number
 
 
@@ -21,6 +23,19 @@ class SignUpForm(forms.Form):
                                  widget=forms.SelectDateWidget(years=range(datetime.date.today().year-100, datetime.date.today().year-18)))
     email = forms.EmailField(required=True, label='Email*')
     is_agreed = forms.BooleanField(required=True, label='Пользователь подписал соглашение')
+
+    def clean_passport_number(self):
+        passport_number = self.cleaned_data.get("passport_number")
+        if passport_number:
+            if Profile.objects.filter(passport_number=passport_number).exists():
+                raise forms.ValidationError("Пользователь с таким паспортным номером уже существует")
+            return passport_number
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if User.objects.filter(groups__name='reader', email=email).exists():
+            raise forms.ValidationError("Пользователь с таким email уже существует")
+        return email
 
 
 class SignInForm(forms.Form):

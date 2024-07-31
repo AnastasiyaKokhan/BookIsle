@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 
+from config import settings
 from main.decorators import allowed_groups
 from .forms import SignInForm, SignUpForm
 from .models import Profile
@@ -21,9 +23,9 @@ def get_sign_up_page(request):
             cd = sign_up_form.cleaned_data
             first_name = cd['first_name']
             last_name = cd['last_name']
-            username = f'{first_name} {last_name}'
             email = cd['email']
-            password = User.objects.make_random_password()
+            username = f'{email}'
+            password = User.objects.make_random_password(length=10)
             patronymic = cd['patronymic']
             passport_number = cd['passport_number']
             birth = cd['birth_date']
@@ -31,14 +33,17 @@ def get_sign_up_page(request):
             is_agreed = cd['is_agreed']
             new_user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username,
                                                 email=email, password=password)
-            new_user.save()
             Profile.objects.create(user=new_user, patronymic=patronymic, passport_number=passport_number,
                                    birth_date=birth, residential_address=address, is_agreed=is_agreed)
+            new_user.save()
+
             reader_group = Group.objects.get(name='reader')
             new_user.groups.add(reader_group)
+
+            subject = 'Информация для входа в личный кабинет'
+            message = f'Пароль для входа в личный кабинет: {password}'
+            send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
             return redirect('readers')
-        else:
-            sign_up_form = SignUpForm(request.POST)
 
     context = {
         'sign_up_form': sign_up_form
@@ -60,6 +65,8 @@ def get_sign_in_page(request):
                 login(request, user)
                 if user.groups.filter(name='librarian').exists() or user.is_superuser == True:
                     return redirect('main')
+                elif user.groups.filter(name='reader').exists():
+                    return redirect('personal_account')
 
     context = {
         'sign_in_form': sign_in_form,

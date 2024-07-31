@@ -1,3 +1,19 @@
+.header__search {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.header__search input {
+    padding: 8px 12px 8px 40px;
+    width: 400px;
+    background: white;
+    border: 1px solid #a7acb1;
+    border-radius: 4px;
+    color: #6d7175;
+    font-size: 15px;
+}
+
 .main {
     padding: 25px 40px 20px 40px;
     display: flex;

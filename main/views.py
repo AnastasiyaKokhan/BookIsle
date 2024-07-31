@@ -248,8 +248,6 @@ def get_add_book_instance_page(request, book_slug):
                 new_book_instance = BookInstance(book=book, price=price, price_per_day=price_per_day)
                 new_book_instance.save()
             return redirect('book_description', book_slug=book_slug)
-        else:
-            add_book_instance_form = BookInstanceForm(request.POST)
 
     context = {
         'add_book_instance_form': add_book_instance_form,
@@ -292,6 +290,12 @@ def search_readers_view(request):
     }
 
     return render(request, 'readers.html', context)
+
+
+@login_required(login_url='sign_in')
+@allowed_groups('reader')
+def get_personal_account_page(request):
+    return render(request, 'personal_account.html')
 
 
 def get_error_page(request):
