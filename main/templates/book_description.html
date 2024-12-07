@@ -104,9 +104,8 @@
                         <th>Стоимость</th>
                         <th>Цена за день использования</th>
                         <th>Дата добавления</th>
-                        <th>В корзину</th>
-                        <th>Изменить</th>
-                        <th>Удалить</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                    </thead>
                    <tbody>
@@ -117,19 +116,19 @@
                             <th>{{ instance.price_per_day }} р.</th>
                             <th>{{ instance.registration_date }}</th>
                             <th>
-                                <a href="#">
-                                    <div class="add_to_cart_button">
-                                        <img src="{% static 'img/' %}" alt="">
-                                    </div>
-                                </a>
+                                {% if instance.status == 'available' %}
+                                    <a href="{% url 'add_to_cart' instance.id %}" class="add_to_cart_button">
+                                        В корзину
+                                    </a>
+                                {% elif instance.status == 'in_cart' %}
+                                    <p> в корзине </p>
+                                {% else %}
+                                    <p> не доступна </p>
+                                {% endif %}
                             </th>
                             <th>
-                                <a href="#" class="edit_button">
-                                    Изменить
-                                </a>
-                            </th>
-                            <th>
-                                <a href="{% url 'delete_book_instance' instance.id %}" onclick="clicked(event)" class="delete_button">
+                                <a href="{% url 'delete_book_instance' instance.id %}" onclick="deleteBookInstance(event)"
+                                   id="delete_book_instance_button" class="delete_book_instance_button">
                                     Удалить
                                 </a>
                             </th>
@@ -157,8 +156,12 @@
                 </div>
             {% endif %}
         </section>
+        <a href="{% url 'delete_book' book.id %}" onclick="deleteBook(event)" id="delete_book_button" class="delete_book_button">
+            <b>Удалить</b>
+        </a>
     </div>
 
     <script src="{% static 'js/select_images.js' %}"></script>
-    <script src="{% static 'js/delete_instances.js' %}"></script>
+    <script src="{% static 'js/delete_instance.js' %}"></script>
+    <script src="{% static 'js/delete_book.js' %}"></script>
 {% endblock %}

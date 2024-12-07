@@ -47,16 +47,24 @@
                     <th>Дата рождения</th>
                     <th>Адрес</th>
                     <th>Email</th>
+                    <th>Заказы</th>
                 </tr>
                </thead>
                <tbody>
                 {% for reader in page_readers %}
                     <tr>
-                        <th>{{ reader.first_name }}</th>
                         <th>{{ reader.last_name }}</th>
+                        <th>{{ reader.first_name }}</th>
                         <th>{{ reader.profile.birth_date }}</th>
-                        <th>{{ reader.profile.residential_address|default_if_none:"-" }}</th>
+                        <th>{{ reader.profile.residential_address|default:"не указан" }}</th>
                         <th>{{ reader.email }}</th>
+                        <th>
+                            {% if reader.order %}
+                                <a href="{% url 'order' reader.id %}" class="view_button">подробнее</a>
+                            {% else %}
+                                <p>заказов нет</p>
+                            {% endif %}
+                        </th>
                     </tr>
                 {% endfor %}
                </tbody>

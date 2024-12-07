@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/order.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Cart</title>
+{% endblock %}
+
+{% block main %}
+<div class="main">
+    <h2 class="title">Заказ №{{ order.id }} ({{ order.reader.first_name }} {{ order.reader.last_name }})</h2>
+    <div class="order">
+        <div class="order_items">
+            {% for item in order_items %}
+                <a href="{{ item.book_instance.book.get_absolute_url }}">
+                    <div class="item">
+                        {% for photo in item.book_instance.book.bookphoto_set.all %}
+                            {% if forloop.first %}
+                                <div class="item__info-image">
+                                    <img src="{{ photo.photo.url }}" alt="">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div>
+                            <div class="item__info-title">
+                                <p><b>{{ item.book_instance.book.russian_title }}</b></p>
+                                {% if item.book_instance.book.original_title %}
+                                    <p class="item__info-title-original">{{ item.book_instance.book.original_title }}</p>
+                                {% endif %}
+                                <p>(id: {{ item.book_instance.id }})</p>
+                            </div>
+                            <div class="item__info-price">
+                                <p>Цена за день: {{ item.book_instance.price_per_day }} р.</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <div class="summary">
+            <div class="summary__info">
+                <p><b>Дата выдачи:</b> {{ order.issue_date }} </p>
+                <p><b>Вернуть до:</b> {{ order.return_date }} </p>
+                <p><b>Штраф:</b> {{ fine }} BYN.</p>
+            </div>
+            <div class="summary__total">
+                <p class="summary__total-price"><b>{{ total_price }} BYN</b></p>
+                <p class="summary__total-quantity">{{ total_quantity }} книги</p>
+            </div>
+            <a href="{% url 'return_books' order.reader.id %}" class="summary__button">Возврат книг</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

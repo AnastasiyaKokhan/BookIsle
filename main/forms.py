@@ -1,7 +1,7 @@
 from django import forms
 
 
-class BookInstanceForm(forms.Form):
+class AddBookInstanceForm(forms.Form):
     price = forms.DecimalField(min_value=0.01, max_digits=6, decimal_places=2, required=True, label='Стоимость*')
     price_per_day = forms.DecimalField(min_value=0.01, max_digits=6, decimal_places=2, required=True,
                                        label='Цена за день использования*')

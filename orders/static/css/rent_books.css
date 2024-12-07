@@ -1,0 +1,77 @@
+.main {
+    margin: 120px 0px 120px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rent_books {
+    padding: 50px 70px 50px 70px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    text-align: left;
+}
+
+.rent_books h2 {
+    color: #173F5F;
+    font-size: 30px;
+}
+
+.rent_books input[type=text] {
+    padding: 8px 12px 8px 40px;
+    width: 400px;
+    background: white;
+    border: 1px solid #a7acb1;
+    border-radius: 4px;
+    color: #6d7175;
+    font-size: 18px;
+}
+
+.readers_list {
+    font-size: 18px;
+    color: black;
+}
+
+.rent_books input[type=radio] {
+    height: 15px;
+    width: 15px;
+}
+
+.rent_books label {
+    font-size: 18px;
+    color: black;
+}
+
+.rent_books__summary {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.rent_books__summary-price {
+    font-size: 20px;
+    color: black;
+}
+
+.rent_books__summary-quantity {
+    font-size: 16px;
+    color: gray;
+}
+
+.rent_books input[type=submit] {
+    padding: 6px 10px 6px 10px;
+    width: 110px;
+    border-radius: 10px;
+    background: #B0C4DE;
+    color: #173F5F;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.rent_books__errors {
+    color: #DC143C;
+    font-size: 16px;
+}

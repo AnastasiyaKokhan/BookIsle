@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/rent_books.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Rent books</title>
+{% endblock %}
+
+{% block main %}
+<div class="main">
+    <form action="" method="POST" class="rent_books">
+        {% csrf_token %}
+        <h2>Выдача книг</h2>
+        <input type="text" name="search_readers" placeholder="Поиск читателя" id="search_readers">
+        <div class="readers_list">
+
+        </div>
+        <div class="rent_books__summary">
+            <p class="rent_books__summary-price"><b>{{ total_price }} BYN</b></p>
+            <p class="rent_books__summary-quantity">{{ total_quantity }} книги</p>
+        </div>
+        {% for error in errors.values %}
+            <p class="rent_books__errors">{{ error }}</p>
+        {% endfor %}
+        <input type="submit" value="Оформить">
+    </form>
+</div>
+
+<script src="{% static 'js/search_readers.js' %}"></script>
+{% endblock %}

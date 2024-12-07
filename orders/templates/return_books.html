@@ -1,0 +1,83 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/return_books.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Return books</title>
+{% endblock %}
+
+{% block main %}
+<div class="main">
+    <form action="" method="POST" enctype="multipart/form-data" class="return_books">
+        {% csrf_token %}
+        {{ return_books_formset.management_form }}
+        {{ damage_photo_formset.management_form }}
+        <h2 class="return_books__title">Возврат книг</h2>
+        <div>
+            {% for error in errors %}
+                <p class="return_books__errors">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div class="return_books__tables">
+            {% for form in return_books_formset %}
+                <table>
+                    <tr>
+                        <td>
+                            <p>Экземпляр книги</p>
+                        </td>
+                        <td>
+                            <select name="book_instance_{{ forloop.counter0 }}" id="">
+                                <option value="">Выберите экземпляр</option>
+                                {% for item in order_items %}
+                                    <option value="{{ item.book_instance.id }}">
+                                        {{ item.book_instance.book.russian_title }} (id {{ item.book_instance.id }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.return_date.label_tag }}</td>
+                        <td>{{ form.return_date }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.damage_description.label_tag }}</td>
+                        <td>{{ form.damage_description }}</td>
+                    </tr>
+                    <tr>
+                        <td>Фотографии повреждений:</td>
+                        <td>
+                            <div class="photos">
+                                {{ form.photo1 }}
+                                {{ form.photo2 }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.fine_for_damage.label_tag }}</td>
+                        <td>{{ form.fine_for_damage }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.reader_assessment.label_tag }}</td>
+                        <td>
+                            <div class="assessments">
+                                {% for option in form.reader_assessment %}
+                                    {{ option }}
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.changed_rental_cost.label_tag }}</td>
+                        <td>{{ form.changed_rental_cost }}</td>
+                    </tr>
+                </table>
+            {% endfor %}
+        </div>
+        <input type="submit" value="Оформить">
+    </form>
+</div>
+{% endblock %}

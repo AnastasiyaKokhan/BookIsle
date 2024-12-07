@@ -14,6 +14,53 @@
 
 {% block main %}
 <div class="main">
-
+    {% if order %}
+        <h2 class="title">Ваш заказ</h2>
+        <div class="order">
+            <div class="order_items">
+                {% for item in order_items %}
+                    <div class="item">
+                        {% for photo in item.book_instance.book.bookphoto_set.all %}
+                            {% if forloop.first %}
+                                <div class="item__info-image">
+                                    <img src="{{ photo.photo.url }}" alt="">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div>
+                            <div class="item__info-title">
+                                <p><b>{{ item.book_instance.book.russian_title }}</b></p>
+                                {% if item.book_instance.book.original_title %}
+                                    <p class="item__info-title-original">{{ item.book_instance.book.original_title }}</p>
+                                {% endif %}
+                                <p>(id: {{ item.book_instance.id }})</p>
+                            </div>
+                            <div class="item__info-price">
+                                <p>Цена за день: {{ item.book_instance.price_per_day }} р.</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="summary">
+                <div class="summary__info">
+                    <p><b>Дата выдачи:</b> {{ order.issue_date }} </p>
+                    <p><b>Вернуть до:</b> {{ order.return_date }} </p>
+                    <p><b>Штраф:</b> {{ fine }} BYN.</p>
+                </div>
+                <div class="summary__total">
+                    <p class="summary__total-price"><b>{{ total_price }} BYN</b></p>
+                    <p class="summary__total-quantity">{{ total_quantity }} книги</p>
+                </div>
+                <ol class="summary__rules">
+                    <li>Книги выдаются на срок не более одного месяца.</li>
+                    <li>За каждый просроченный день взимается пеня в сумме 1% от стоимости заказа.</li>
+                    <li>Библиотекарь имеет право выписать штраф при наличии повреждений.</li>
+                </ol>
+            </div>
+        </div>
+    {% else %}
+        <h2 class="title">У вас нет заказов</h2>
+    {% endif %}
 </div>
 {% endblock %}

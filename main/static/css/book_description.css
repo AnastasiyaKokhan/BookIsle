@@ -155,15 +155,15 @@ thead th:nth-child(1) {
 }
 
 thead th:nth-child(2) {
-    width: 30%;
+    width: 20%;
 }
 
 thead th:nth-child(3) {
-    width: 15%;
+    width: 30%;
 }
 
 thead th:nth-child(4) {
-    width: 15%;
+    width: 20%;
 }
 
 thead th:nth-child(5) {
@@ -171,10 +171,6 @@ thead th:nth-child(5) {
 }
 
 thead th:nth-child(6) {
-    width: 10%;
-}
-
-thead th:nth-child(7) {
     width: 10%;
 }
 
@@ -195,12 +191,7 @@ tbody th {
     border-top: 1px solid #F6F6F7;
 }
 
-.add_to_cart_button img {
-    height: 20px;
-    width: 20px;
-}
-
-.edit_button {
+.add_to_cart_button {
     padding: 3px 5px 3px 5px;
     background: white;
     border: 2px solid #B0C4DE;
@@ -209,7 +200,12 @@ tbody th {
     font-size: 16px;
 }
 
-.delete_button {
+.add_to_cart_button:hover {
+    background: #B0C4DE;
+    color: #173F5F;
+}
+
+.delete_book_instance_button {
     padding: 3px 5px 3px 5px;
     background: white;
     border: 2px solid #fadbd8;
@@ -218,12 +214,7 @@ tbody th {
     font-size: 16px;
 }
 
-.edit_button:hover {
-    background: #B0C4DE;
-    color: #173F5F;
-}
-
-.delete_button:hover {
+.delete_book_instance_button:hover {
     background: #fadbd8;
     color:  #cb4335;
 }
@@ -252,4 +243,22 @@ tbody th {
 .instances__paginator-arrows-image img {
     height: 100%;
     width: 100%;
+}
+
+.delete_book_button{
+    padding: 7px 9px 7px 9px;
+    width: 140px;
+    background: white;
+    border: 2px solid #fadbd8;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: #e74c3c;
+    font-size: 18px;
+}
+
+.delete_book_button:hover {
+    background: #fadbd8;
+    color:  #cb4335;
 }

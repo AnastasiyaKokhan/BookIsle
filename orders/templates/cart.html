@@ -1,0 +1,81 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Cart</title>
+{% endblock %}
+
+{% block main %}
+<div class="main">
+    <h2 class="title">Корзина</h2>
+    {% if cart_items %}
+        <div class="cart">
+            <div class="cart_items">
+                {% for item in cart_items %}
+                    <div class="item">
+                        <a href="{{ item.book_instance.book.get_absolute_url }}">
+                            <div class="item__info">
+                                {% for photo in item.book_instance.book.bookphoto_set.all %}
+                                    {% if forloop.first %}
+                                        <div class="item__info-image">
+                                            <img src="{{ photo.photo.url }}" alt="">
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <div>
+                                    <div class="item__info-title">
+                                        <p><b>{{ item.book_instance.book.russian_title }}</b></p>
+                                        {% if item.book_instance.book.original_title %}
+                                            <p class="item__info-title-original">{{ item.book_instance.book.original_title }}</p>
+                                        {% endif %}
+                                        <p>(id: {{ item.book_instance.id }})</p>
+                                    </div>
+                                    <div class="item__info-price">
+                                        <p>Цена за день: {{ item.book_instance.price_per_day }} р.</p>
+                                        <p>Цена за месяц: {{ item.count_price_per_month }} р.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item__delete_button">
+                                <a href="{% url 'remove_from_cart' item.id %}">
+                                    <div class="item__delete_button-image">
+                                        <img src="{% static 'img/trash_bin.svg' %}" alt="">
+                                    </div>
+                                </a>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                <div class="cart_items__clear_cart">
+                    <a href="{% url 'clear_cart' %}" class="cart_items__clear_cart-button">Очистить корзину</a>
+                </div>
+            </div>
+            <div class="summary">
+                <div>
+                    <p class="summary__info"><b>Итого:</b> {{ total_quantity }} книги. </p>
+                    <p class="summary__info">
+                        {% if sale %}
+                            <b>Скидка:</b> {{ sale }} %
+                        {% endif %}
+                    </p>
+                    <p class="summary__info"><b>Предварительная цена:</b> {{ total_price }} BYN.</p>
+                    {% for error in errors.values %}
+                        <p class="summary__errors">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% if not errors %}
+                    <a href="{% url 'rent_books' %}" class="summary__button">Выдача книг</a>
+                {% else %}
+                    <a href="" class="summary__blocked_button">Выдача книг</a>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <p class="not_found">В корзине нет книг.</p>
+    {% endif %}
+</div>
+{% endblock %}

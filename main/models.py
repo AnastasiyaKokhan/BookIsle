@@ -61,8 +61,8 @@ class Book(models.Model):
     publication_date = models.PositiveIntegerField(blank=True, null=True, verbose_name='Год издания', help_text="ГГГГ")
     page_count = models.PositiveIntegerField(blank=True, null=True, verbose_name='Количество страниц')
     instance_count = models.PositiveIntegerField(default=0, verbose_name='Количество экземпляров книги')
-    reader_count = models.PositiveIntegerField(default=0, verbose_name='Количество прочитавших')
-    rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, verbose_name='Рейтинг')
+    # reader_count = models.PositiveIntegerField(default=0, verbose_name='Количество прочитавших')
+    # rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, verbose_name='Рейтинг')
 
     class Meta:
         unique_together = ['russian_title', 'original_title', 'publication_date', 'page_count',]
@@ -86,11 +86,37 @@ class Book(models.Model):
     def count_available_book_instances(self):
         return self.bookinstance_set.filter(status='available').count()
 
+    def count_readers(self):
+        count_readers = 0
+        book_instances = self.bookinstance_set.all()
+        for book_instance in book_instances:
+            book_returns = book_instance.bookreturn_set.count()
+            count_readers += book_returns
+        return count_readers
+
+    def count_average_rating(self):
+        ratings_sum = 0
+        count_book_returns = 0
+        book_instances = self.bookinstance_set.all()
+        for book_instance in book_instances:
+            book_returns = book_instance.bookreturn_set.all()
+            for book_return in book_returns:
+                reader_assessment = book_return.reader_assessment
+                if reader_assessment:
+                    ratings_sum += int(reader_assessment)
+                    count_book_returns += 1
+        if count_book_returns:
+            average_rating = ratings_sum / count_book_returns
+        else:
+            average_rating = 0
+        return average_rating
+
 
 class BookInstance(models.Model):
     STATUS = {
         "available": "доступна для выдачи",
         "not_available": "НЕ доступна для выдачи",
+        "in_cart": "в корзине",
     }
     book = models.ForeignKey('Book', on_delete=models.CASCADE, verbose_name='Книга')
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Стоимость')
@@ -107,7 +133,7 @@ class BookInstance(models.Model):
         return self.book.russian_title
 
     def save(self, *args, **kwargs):
-        super(BookInstance, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         book = self.book
         instance_count = BookInstance.objects.filter(book=book).count()
         book.instance_count = instance_count
@@ -118,7 +144,7 @@ class BookInstance(models.Model):
         instance_count = BookInstance.objects.filter(book=book).count()
         book.instance_count = instance_count - 1
         book.save()
-        super(BookInstance, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
 
 class BookPhoto(models.Model):

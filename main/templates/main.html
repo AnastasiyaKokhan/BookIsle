@@ -40,7 +40,7 @@
                 <a href="{% url 'main' %}">Главная</a>
                 <a href="{% url 'books' %}">Книги</a>
                 <a href="{% url 'readers' %}">Читатели</a>
-                <a href="#">Корзина</a>
+                <a href="{% url 'cart' %}">Корзина</a>
             {% endif %}
         {% endblock %}
     </nav>
@@ -101,13 +101,13 @@
                                 {% endfor %}
                                 <div class="popular__container-item-info">
                                     <div class="popular__container-item-info-rating">
-                                        <p>{{ book.rating }}</p>
+                                        <p>{{ book.count_average_rating }}</p>
                                         <div class="popular__container-item-info-rating-image">
                                             <img src="{% static 'img/star.svg' %}" alt="">
                                         </div>
                                     </div>
                                     <div class="popular__container-item-info-readers">
-                                       прочитали
+                                       {{ book.count_readers }} прочитали
                                     </div>
                                 </div>
                             </div>

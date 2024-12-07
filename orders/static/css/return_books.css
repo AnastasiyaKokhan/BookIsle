@@ -1,0 +1,138 @@
+.main {
+    padding: 25px 40px 20px 40px;
+}
+
+.return_books {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.return_books__title {
+    padding: 0px 0px 10px 0px;
+    color: #173F5F;
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.errorlist {
+    color: #DC143C;
+    font-size: 16px;
+}
+
+.return_books__errors {
+    color: #DC143C;
+    font-size: 16px;
+}
+
+table {
+    color: black;
+    font-size: 16px;
+}
+
+.return_books__tables {
+    display: flex;
+    row-gap: 20px;
+    column-gap: 100px;
+    flex-wrap: wrap;
+}
+
+table caption {
+    margin-bottom: 10px;
+    color: #173F5F;
+    font-size: 25px;
+    text-align: center;
+    text-align: left;
+}
+
+table td:nth-child(1) {
+    padding: 12px 5px 12px 10px;
+    width: 200px;
+    background: #B0C4DE;
+    font-weight: bold;
+    text-align: center;
+}
+
+table td:nth-child(2) {
+    padding: 12px 5px 12px 10px;
+    width: 400px;
+    background: white;
+}
+
+.return_books label {
+    color: black;
+    font-size: 16px;
+}
+
+.return_books select {
+    padding: 7px 10px 7px 10px;
+    background: white;
+    font-size: 14px;
+}
+
+.return_books option {
+    padding: 7px 10px 7px 10px;
+    background: white;
+    font-size: 14px;
+}
+
+.return_books textarea {
+    padding: 8px 12px 8px 20px;
+    height: 150px;
+    width: 350px;
+    background: white;
+    border: 1px solid #a7acb1;
+    border-radius: 4px;
+    color: black;
+    font-size: 16px;
+    resize: none;
+}
+
+.photos {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+
+.added_photos {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+
+.return_books input[type=file] {
+    color: black;
+}
+
+.return_books input[type=number] {
+    padding: 8px 12px 8px 20px;
+    width: 200px;
+    background: white;
+    border: 1px solid #a7acb1;
+    border-radius: 4px;
+    color: black;
+    font-size: 16px;
+}
+
+.return_books input[type=radio] {
+    height: 16px;
+    width: 16px;
+    font-size: 16px;
+}
+
+.assessments {
+    display: flex;
+    gap: 15px;
+}
+
+.return_books input[type=submit] {
+    padding: 7px 10px 7px 10px;
+    width: 160px;
+    border-radius: 10px;
+    background: #B0C4DE;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+}

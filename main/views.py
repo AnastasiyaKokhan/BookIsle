@@ -1,15 +1,18 @@
 from itertools import chain
+from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.postgres.search import SearchVector
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import render, redirect
 
+from orders.models import Order
+from orders.views import count_total_price
 from .decorators import allowed_groups
-from .forms import BookInstanceForm
+from .forms import AddBookInstanceForm
 from .models import Book, Genre, Author, BookInstance, BookPhoto, AuthorPhoto
 
 
@@ -34,7 +37,7 @@ def get_main_page(request):
     all_instances = BookInstance.objects.count()
     all_not_available_instances = BookInstance.objects.filter(status='not_available').count()
     all_readers = User.objects.filter(groups__name='reader').count()
-    popular_books = Book.objects.all().order_by('page_count')[:3]
+    popular_books = Book.objects.all().annotate(readers=Count('bookinstance__bookreturn')).order_by('-readers')[:3]
 
     context = {
         'instance_count': all_instances,
@@ -135,11 +138,19 @@ def get_book_description_page(request, book_slug):
 
 @login_required(login_url='sign_in')
 @allowed_groups('librarian')
-def delete_book_instance(request, id):
-    book_instance = BookInstance.objects.get(id=id)
+def delete_book_instance(request, book_instance_id):
+    book_instance = BookInstance.objects.get(id=book_instance_id)
     slug = book_instance.book.slug
     book_instance.delete()
     return redirect('book_description', book_slug=slug)
+
+
+@login_required(login_url='sign_in')
+@allowed_groups('librarian')
+def delete_book(request, book_id):
+    book = Book.objects.get(id=book_id)
+    book.delete()
+    return redirect('books')
 
 
 @login_required(login_url='sign_in')
@@ -237,9 +248,9 @@ def get_add_book_instance_page(request, book_slug):
         book = books.get(slug=book_slug)
     except ObjectDoesNotExist:
         return redirect('error')
-    add_book_instance_form = BookInstanceForm()
+    add_book_instance_form = AddBookInstanceForm()
     if request.method == "POST":
-        form = BookInstanceForm(request.POST)
+        form = AddBookInstanceForm(request.POST)
         if form.is_valid():
             price = form.cleaned_data.get('price')
             price_per_day = form.cleaned_data.get('price_per_day')
@@ -257,45 +268,34 @@ def get_add_book_instance_page(request, book_slug):
 
 
 @login_required(login_url='sign_in')
-@allowed_groups('librarian')
-def get_readers_page(request):
-    readers = User.objects.filter(groups__name='reader')
-    page_readers = paginate_objects(request, readers, 20)
-
-    context = {
-        'readers': readers,
-        'page_readers': page_readers,
-    }
-
-    return render(request, 'readers.html', context)
-
-
-@login_required(login_url='sign_in')
-@allowed_groups('librarian')
-def search_readers_view(request):
-    readers = User.objects.filter(groups__name='reader')
-
-    search = request.POST.get('search')
-    if request.method == 'POST':
-        if search and len(search) >= 3:
-            readers = (User.objects.filter(groups__name='reader')
-                       .annotate(search=SearchVector('first_name', 'last_name'))
-                       .filter(Q(search=search) | Q(first_name__icontains=search) | Q(last_name__icontains=search)))
-
-    page_readers = paginate_objects(request, readers, 20)
-
-    context = {
-        'search': search,
-        'page_readers': page_readers,
-    }
-
-    return render(request, 'readers.html', context)
-
-
-@login_required(login_url='sign_in')
 @allowed_groups('reader')
 def get_personal_account_page(request):
-    return render(request, 'personal_account.html')
+    reader = request.user
+    try:
+        order = Order.objects.get(reader=reader)
+        order_items = order.orderitem_set.all()
+        total_quantity = order_items.count()
+        now = datetime.now()
+        issue_date = datetime.combine(order.issue_date, datetime.min.time())
+        period_of_use = now - issue_date
+        total_price, sale = count_total_price(order_items, period_of_use.days)
+        fine = 0
+        if period_of_use.days > 30:
+            delay_period = period_of_use.days - 30
+            fine = round((total_price * 0.01) * delay_period, 2)
+            total_price += fine
+
+        context = {
+            'order': order,
+            'order_items': order_items,
+            'total_quantity': total_quantity,
+            'total_price': total_price,
+            'fine': fine,
+        }
+    except ObjectDoesNotExist:
+        context = {}
+
+    return render(request, 'personal_account.html', context)
 
 
 def get_error_page(request):

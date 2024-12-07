@@ -25,11 +25,12 @@
     align-items: flex-start;
 }
 
-.add_book_form h2 {
-    padding: 0px 0px 21px 0px;
+.add_book_form-title {
+    padding: 0px 0px 10px 0px;
     color: #173F5F;
     font-size: 40px;
     font-weight: bold;
+    text-align: center;
 }
 
 .errors {
