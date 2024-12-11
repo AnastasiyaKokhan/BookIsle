@@ -17,18 +17,21 @@ def count_total_price(books, days_of_use):
     total_price = 0
     total_quantity = books.count()
     sale = 0
+    fine = 0
     for book in books:
         book_price = book.book_instance.price_per_day * days_of_use
         total_price += round(float(book_price), 2)
     if total_quantity > 4:
         sale = 15
         total_price *= 0.85
-        total_price = round(total_price, 2)
     elif total_quantity > 2:
         sale = 10
         total_price *= 0.9
-        total_price = round(total_price, 2)
-    return total_price, sale
+    if days_of_use > 30:
+        delay_period = days_of_use - 30
+        fine = round((total_price * 0.01) * delay_period, 2)
+        total_price += fine
+    return round(total_price, 2), sale, fine
 
 
 @login_required(login_url='sign_in')
@@ -38,7 +41,7 @@ def get_cart_page(request):
     books_in_cart = []
     total_quantity = cart_items.count()
     errors = {}
-    total_price, sale = count_total_price(cart_items, 30)
+    total_price, sale, fine = count_total_price(cart_items, 30)
     for item in cart_items:
         book = item.book_instance.book
         if book in books_in_cart:
@@ -90,7 +93,7 @@ def rent_books(request):
     errors = {}
     cart_items = CartItem.objects.all()
     total_quantity = cart_items.count()
-    total_price, sale = count_total_price(cart_items, 30)
+    total_price, sale, fine = count_total_price(cart_items, 30)
     if request.method == 'POST':
         reader_id = request.POST.get('reader')
         if reader_id:
@@ -127,12 +130,7 @@ def get_order_page(request, reader_id):
     now = datetime.now()
     issue_date = datetime.combine(order.issue_date, datetime.min.time())
     period_of_use = now - issue_date
-    total_price, sale = count_total_price(order_items, period_of_use.days)
-    fine = 0
-    if period_of_use.days > 30:
-        delay_period = period_of_use.days - 30
-        fine = round((total_price * 0.01) * delay_period, 2)
-        total_price += fine
+    total_price, sale, fine = count_total_price(order_items, period_of_use.days)
 
     context = {
         'order': order,
@@ -150,6 +148,12 @@ def get_order_page(request, reader_id):
 def return_books(request, reader_id):
     order = Order.objects.get(reader=reader_id)
     order_items = order.orderitem_set.all()
+
+    now = datetime.now()
+    issue_date = datetime.combine(order.issue_date, datetime.min.time())
+    period_of_use = now - issue_date
+    total_price, sale, fine = count_total_price(order_items, period_of_use.days)
+
     ReturnBooksFormSet = formset_factory(BookReturnForm, extra=order_items.count())
     return_books_formset = ReturnBooksFormSet()
     errors = []
@@ -171,8 +175,23 @@ def return_books(request, reader_id):
                         photo2 = request.FILES.get(f'form-{index}-photo2')
                         reader_assessment = form.cleaned_data.get('reader_assessment')
                         changed_rental_cost = form.cleaned_data.get('changed_rental_cost')
+
+                        price_per_day = book_instance.price_per_day
+                        book_price = float(price_per_day * period_of_use.days)
+                        if fine_for_damage:
+                            book_price += float(fine_for_damage)
+                            total_price += float(fine_for_damage)
+                        if sale:
+                            book_price = (book_price * (100 - sale)) / 100
+                        if fine:
+                            delay_period = period_of_use.days - 30
+                            book_fine = (book_price * 0.01) * delay_period
+                            book_price += book_fine
+                        book_price = round(book_price, 2)
+
                         review = BookReturn(book_instance=book_instance, return_date=return_date,
-                                            reader_assessment=reader_assessment, damage_description=damage_description)
+                                            reader_assessment=reader_assessment, damage_description=damage_description,
+                                            book_instance_price=book_price)
                         reviews_to_save.append((review, photo1, photo2, book_instance_id, changed_rental_cost))
                     else:
                         errors.append(f"Книга с ID {book_instance_id} уже была возвращена. Убедитесь, что вы не возвращаете один и тот же экземпляр несколько раз.")
@@ -186,7 +205,8 @@ def return_books(request, reader_id):
                         if changed_rental_cost:
                             BookInstance.objects.filter(id=book_instance_id).update(price_per_day=changed_rental_cost)
                     order.delete()
-                    return redirect('readers')
+                    return render(request, 'created.html',
+                                  {'total_price': total_price, 'sale': sale, 'fine': fine})
             except ValueError:
                 errors.append("Возврат был оформлен не для всех книг.")
             except BookInstance.DoesNotExist:

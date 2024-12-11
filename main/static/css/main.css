@@ -214,7 +214,6 @@ main {
 
 .income {
     padding: 40px 40px 40px 40px;
-    height: 730px;
     background: white;
 }
 
@@ -223,6 +222,62 @@ main {
     color: #173F5F;
     font-size: 40px;
     font-weight: bold;
+}
+
+.income__information {
+    padding: 60px 0px 30px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.income__table {
+    width: 70%;
+}
+
+.income__table thead {
+    background: #B0C4DE;
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.income__table thead th {
+    padding: 10px 15px 10px 15px;
+    border-bottom: 1px solid #F6F6F7;
+}
+
+.income__table thead th:nth-child(1) {
+    width: 75%;
+}
+
+.income__table thead th:nth-child(2) {
+    width: 25%;
+}
+
+.income__table tbody {
+    background: white;
+    color: black;
+    font-size: 18px;
+}
+
+.income__table tbody tr:hover {
+    background: #F6F6F7;
+    cursor: pointer;
+}
+
+.income__table tbody th {
+    padding: 9px 7px 9px 0px;
+    border-bottom: 1px solid #F6F6F7;
+    border-top: 1px solid #F6F6F7;
+}
+
+.income__table tbody th:nth-child(1) {
+    padding-left: 20px;
+    text-align: left;
+}
+
+.income__table tbody th:nth-child(2) {
+    text-align: center;
 }
 
 footer {

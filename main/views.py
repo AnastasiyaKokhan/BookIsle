@@ -1,3 +1,4 @@
+import calendar
 from itertools import chain
 from datetime import datetime
 
@@ -9,7 +10,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q, Count
 from django.shortcuts import render, redirect
 
-from orders.models import Order
+from orders.models import Order, BookReturn
 from orders.views import count_total_price
 from .decorators import allowed_groups
 from .forms import AddBookInstanceForm
@@ -39,11 +40,44 @@ def get_main_page(request):
     all_readers = User.objects.filter(groups__name='reader').count()
     popular_books = Book.objects.all().annotate(readers=Count('bookinstance__bookreturn')).order_by('-readers')[:3]
 
+    this_year = datetime.now().year
+    previous_year = this_year - 1
+    is_leap_year = calendar.isleap(this_year)
+    days_in_february = 29 if is_leap_year else 28
+    winter_start = datetime(previous_year, 12, 1)
+    winter_end = datetime(this_year, 2, days_in_february)
+    spring_start = datetime(this_year, 3, 1)
+    spring_end = datetime(this_year, 5, 31)
+    summer_start = datetime(this_year, 6, 1)
+    summer_end = datetime(this_year, 8, 31)
+    autumn_start = datetime(this_year, 9, 1)
+    autumn_end = datetime(this_year, 11, 30)
+    year_start = datetime(this_year, 1, 1)
+    year_end = datetime(this_year, 12, 31)
+
+    def calculate_income(start_date, end_date):
+        book_returns = BookReturn.objects.filter(return_date__range=[start_date, end_date])
+        total_income = sum(book.book_instance_price for book in book_returns)
+        return total_income
+
+    winter_income = calculate_income(winter_start, winter_end)
+    spring_income = calculate_income(spring_start, spring_end)
+    summer_income = calculate_income(summer_start, summer_end)
+    autumn_income = calculate_income(autumn_start, autumn_end)
+    year_income = calculate_income(year_start, year_end)
+
     context = {
         'instance_count': all_instances,
         'not_available_instance_count': all_not_available_instances,
         'readers_count': all_readers,
         'popular_books': popular_books,
+        'this_year': this_year,
+        'previous_year': previous_year,
+        'winter_income': winter_income,
+        'spring_income': spring_income,
+        'summer_income': summer_income,
+        'autumn_income': autumn_income,
+        'year_income': year_income,
     }
 
     return render(request, 'main.html', context)
@@ -278,12 +312,7 @@ def get_personal_account_page(request):
         now = datetime.now()
         issue_date = datetime.combine(order.issue_date, datetime.min.time())
         period_of_use = now - issue_date
-        total_price, sale = count_total_price(order_items, period_of_use.days)
-        fine = 0
-        if period_of_use.days > 30:
-            delay_period = period_of_use.days - 30
-            fine = round((total_price * 0.01) * delay_period, 2)
-            total_price += fine
+        total_price, sale, fine = count_total_price(order_items, period_of_use.days)
 
         context = {
             'order': order,

@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/created.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Created</title>
+{% endblock %}
+
+{% block main %}
+<div class="main">
+    <h3 class="title">Возврат оформлен</h3>
+    <div class="payment">
+        <p><b>Итоговая цена:</b> {{ total_price }} byn.</p>
+    </div>
+<!--    <div class="payment">-->
+<!--        <div class="payment__book_prices">-->
+<!--            {% for book_price, fine_for_damage, book_instance_id in book_prices %}-->
+<!--                <p>-->
+<!--                    <u>ID {{ book_instance_id }}:</u> {{ book_price }} byn-->
+<!--                    {% if fine_for_damage %}-->
+<!--                        (включая штраф за повреждение: {{ fine_for_damage }} byn)-->
+<!--                    {% endif %}-->
+<!--                </p>-->
+<!--            {% endfor %}-->
+<!--            {% if sale %}-->
+<!--                <p><u>Скидка:</u> {{ sale }}%</p>-->
+<!--            {% endif %}-->
+<!--            {% if fine %}-->
+<!--                <p><u>Штраф:</u> {{ fine }} byn</p>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--        <div class="payment__total_price">-->
+<!--            <b>Итоговая цена:</b> {{ total_price }} byn.-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+{% endblock %}

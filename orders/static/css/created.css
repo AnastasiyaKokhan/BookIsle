@@ -1,0 +1,21 @@
+
+
+.main {
+    padding: 25px 40px 20px 40px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.title {
+    color: #173F5F;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.payment {
+    color: black;
+    font-size: 25px;
+}

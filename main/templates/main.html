@@ -116,9 +116,38 @@
                 </div>
             </section>
             <section class="income">
-                    <h2 class="income__title">Доходы библиотеки</h2>
-                    <div>
-
+                    <h2 class="income__title">Доходы библиотеки </h2>
+                    <div class="income__information">
+                        <table cellspacing="0" class="income__table">
+                           <thead>
+                            <tr>
+                                <th>Период</th>
+                                <th>Доход</th>
+                            </tr>
+                           </thead>
+                           <tbody>
+                            <tr>
+                                <th>декабрь {{ previous_year }} - февраль {{ this_year }}</th>
+                                <th>{{ winter_income }} р.</th>
+                            </tr>
+                            <tr>
+                                <th>март {{ this_year }} - май {{ this_year }}</th>
+                                <th>{{ spring_income }} р.</th>
+                            </tr>
+                            <tr>
+                                <th>июнь {{ this_year }} - август {{ this_year }}</th>
+                                <th>{{ summer_income }} р.</th>
+                            </tr>
+                            <tr>
+                                <th>сентябрь {{ this_year }} - ноябрь {{ this_year }}</th>
+                                <th>{{ autumn_income }} р.</th>
+                            </tr>
+                            <tr>
+                                <th>{{ this_year }} год</th>
+                                <th>{{ year_income }} р.</th>
+                            </tr>
+                           </tbody>
+                        </table>
                     </div>
             </section>
         {% endblock %}

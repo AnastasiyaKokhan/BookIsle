@@ -76,6 +76,8 @@ class BookReturn(models.Model):
     return_date = models.DateField(default=timezone.now, verbose_name='Дата возврата')
     reader_assessment = models.CharField(max_length=1, choices=STARS, blank=True, null=True, verbose_name='Оценка')
     damage_description = models.TextField(blank=True, null=True, verbose_name='Описание повреждений')
+    book_instance_price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00,
+                                              verbose_name='Цена за использование книгу')
 
     class Meta:
         verbose_name = 'Возврат'

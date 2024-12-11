@@ -61,8 +61,6 @@ class Book(models.Model):
     publication_date = models.PositiveIntegerField(blank=True, null=True, verbose_name='Год издания', help_text="ГГГГ")
     page_count = models.PositiveIntegerField(blank=True, null=True, verbose_name='Количество страниц')
     instance_count = models.PositiveIntegerField(default=0, verbose_name='Количество экземпляров книги')
-    # reader_count = models.PositiveIntegerField(default=0, verbose_name='Количество прочитавших')
-    # rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, verbose_name='Рейтинг')
 
     class Meta:
         unique_together = ['russian_title', 'original_title', 'publication_date', 'page_count',]
@@ -106,7 +104,7 @@ class Book(models.Model):
                     ratings_sum += int(reader_assessment)
                     count_book_returns += 1
         if count_book_returns:
-            average_rating = ratings_sum / count_book_returns
+            average_rating = round(ratings_sum / count_book_returns, 2)
         else:
             average_rating = 0
         return average_rating
