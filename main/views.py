@@ -32,6 +32,21 @@ def paginate_objects(request, object_list, objects_per_page):
     return page_objects
 
 
+def order_books(request, books):
+    order = request.GET.get('o', 'russian_title')
+    descending = order.startswith('-')
+    sort_field = order[1:] if descending else order
+    valid_sorting_fields = ['russian_title', 'count_available_book_instances']
+    books = books.annotate(
+        count_available_book_instances=Count('bookinstance', filter=Q(bookinstance__status='available'))
+    )
+    if sort_field in valid_sorting_fields:
+        books = books.order_by(order)
+    else:
+        books = books.order_by('russian_title', '-count_available_book_instances')
+    return books, order
+
+
 @login_required(login_url='sign_in')
 @allowed_groups('librarian')
 def get_main_page(request):
@@ -88,23 +103,23 @@ def get_main_page(request):
 def get_books_page(request):
     books = Book.objects.all()
     genres = Genre.objects.all()
-    errors = {}
 
-    if request.method == 'POST':
-        get_children = request.POST.getlist('child')
-        if get_children:
-            checked_children = genres.filter(id__in=get_children)
-            books = Book.objects.filter(genre__in=checked_children).distinct()
-        else:
-            errors['filtration'] = '* выберите жанры'
+    selected_genres = request.POST.getlist('child') if request.method == 'POST' else request.GET.getlist('child')
+    selected_genres = [genre for genre in selected_genres if genre.isdigit()]
+    if selected_genres:
+        checked_children = genres.filter(id__in=selected_genres)
+        books = books.filter(genre__in=checked_children).distinct()
+
+    books, order = order_books(request, books)
 
     page_books = paginate_objects(request, books, 20)
 
     context = {
         'books': books,
         'genres': genres,
-        'errors': errors,
         'page_books': page_books,
+        'current_order': order,
+        'selected_genres': selected_genres,
     }
 
     return render(request, 'books.html', context)
@@ -116,22 +131,33 @@ def search_books_view(request):
     books = Book.objects.all()
     genres = Genre.objects.all()
 
-    search = request.POST.get('search')
-    if request.method == 'POST':
-        if search and len(search) >= 3:
-            books_by_title = Book.objects.filter(Q(russian_title__icontains=search) | Q(original_title__icontains=search))
-            authors = (Author.objects
-                       .annotate(search=SearchVector('first_name', 'last_name'))
-                       .filter(Q(search=search) | Q(first_name__icontains=search) | Q(last_name__icontains=search)))
-            books_by_author = []
-            for author in authors:
-                books_by_author.extend(author.book_set.all())
-            books = list(chain(books_by_title, books_by_author))
+    search = request.POST.get('search') if request.method == 'POST' else request.GET.get('search')
+    # if request.method == 'POST':
+        # if search and len(search) >= 3:
+        #     books_by_title = Book.objects.filter(Q(russian_title__icontains=search) | Q(original_title__icontains=search))
+        #     authors = (Author.objects
+        #                .annotate(search=SearchVector('first_name', 'last_name'))
+        #                .filter(Q(search=search) | Q(first_name__icontains=search) | Q(last_name__icontains=search)))
+        #     books_by_author = []
+        #     for author in authors:
+        #         books_by_author.extend(author.book_set.all())
+        #     books = books_by_title | books_by_author
+    if search and len(search) >= 3:
+        authors = (Author.objects
+                   .annotate(search=SearchVector('first_name', 'last_name'))
+                   .filter(Q(search=search) | Q(first_name__icontains=search) | Q(last_name__icontains=search)))
+        books = Book.objects.filter(
+            Q(russian_title__icontains=search) | Q(original_title__icontains=search) |
+            Q(author__in=authors)
+        ).distinct()
 
-        get_children = request.POST.getlist('child')
-        if get_children:
-            checked_children = genres.filter(id__in=get_children)
-            books = Book.objects.filter(genre__in=checked_children).distinct()
+    selected_genres = request.POST.getlist('child') if request.method == 'POST' else request.GET.getlist('child')
+    selected_genres = [genre for genre in selected_genres if genre.isdigit()]
+    if selected_genres:
+        checked_children = genres.filter(id__in=selected_genres)
+        books = books.filter(genre__in=checked_children).distinct()
+
+    books, order = order_books(request, books)
 
     page_books = paginate_objects(request, books, 20)
 
@@ -139,6 +165,8 @@ def search_books_view(request):
         'genres': genres,
         'search': search,
         'page_books': page_books,
+        'current_order': order,
+        'selected_genres': selected_genres,
     }
 
     return render(request, 'books.html', context)

@@ -16,6 +16,18 @@ from .models import Profile
 # Create your views here.
 
 
+def order_readers(request, readers):
+    valid_sorting_fields = ['last_name']
+    order = request.GET.get('o', 'last_name')
+    descending = order.startswith('-')
+    sort_field = order[1:] if descending else order
+    if sort_field in valid_sorting_fields:
+        readers = readers.order_by(order)
+    else:
+        readers = readers.order_by('last_name')
+    return readers, order
+
+
 @login_required(login_url='sign_in')
 @allowed_groups('librarian')
 def get_sign_up_page(request):
@@ -89,11 +101,13 @@ def sign_out(request):
 @allowed_groups('librarian')
 def get_readers_page(request):
     readers = User.objects.filter(groups__name='reader')
+    readers, order = order_readers(request, readers)
     page_readers = paginate_objects(request, readers, 20)
 
     context = {
         'readers': readers,
         'page_readers': page_readers,
+        'current_order': order,
     }
 
     return render(request, 'readers.html', context)
@@ -104,18 +118,20 @@ def get_readers_page(request):
 def search_readers_view(request):
     readers = User.objects.filter(groups__name='reader')
 
-    search = request.POST.get('search')
-    if request.method == 'POST':
-        if search and len(search) >= 3:
-            readers = (User.objects.filter(groups__name='reader')
-                       .annotate(search=SearchVector('first_name', 'last_name'))
-                       .filter(Q(search=search) | Q(first_name__icontains=search) | Q(last_name__icontains=search)))
+    search = request.POST.get('search') if request.method == 'POST' else request.GET.get('search')
+    if search and len(search) >= 3:
+        readers = (User.objects.filter(groups__name='reader')
+                   .annotate(search=SearchVector('first_name', 'last_name'))
+                   .filter(Q(search=search) | Q(first_name__icontains=search) | Q(last_name__icontains=search)))
+
+    readers, order = order_readers(request, readers)
 
     page_readers = paginate_objects(request, readers, 20)
 
     context = {
         'search': search,
         'page_readers': page_readers,
+        'current_order': order,
     }
 
     return render(request, 'readers.html', context)

@@ -78,22 +78,37 @@
                 {% endrecursetree %}
                 <input type="submit" value="Применить фильтры" class="filter__genre-button">
             </form>
-            <p class="filter__errors">
-                {% if errors %}
-                    {{ errors.filtration }}
-                {% endif %}
-            </p>
         </div>
         <div class="books">
             {% if page_books %}
                <table cellspacing="0">
                    <thead>
                     <tr>
-                        <th>Наименование</th>
+                        <th>
+                            {% if current_order == 'russian_title' %}
+                                <a href="?o=-russian_title&search={{ search }}&child={{ selected_genres|join:'&child=' }}">
+                                    Наименование<span>&#8593;</span>
+                                </a>
+                            {% else %}
+                                <a href="?o=russian_title&search={{ search }}&child={{ selected_genres|join:'&child=' }}">
+                                    Наименование<span>&#8595;</span>
+                                </a>
+                            {% endif %}
+                        </th>
                         <th>Авторы</th>
                         <th>Год издания</th>
                         <th>Всего</th>
-                        <th>Доступно</th>
+                        <th>
+                            {% if current_order == 'count_available_book_instances' %}
+                                <a href="?o=-count_available_book_instances&search={{ search }}&child={{ selected_genres|join:'&child=' }}">
+                                    Доступно<span>&#8593;</span>
+                                </a>
+                            {% else %}
+                                <a href="?o=count_available_book_instances&search={{ search }}&child={{ selected_genres|join:'&child=' }}">
+                                    Доступно<span>&#8595;</span>
+                                </a>
+                            {% endif %}
+                        </th>
                     </tr>
                    </thead>
                    <tbody>
@@ -129,13 +144,13 @@
                     <p>Страница {{ page_books.number }} из {{ page_books.paginator.num_pages }}</p>
                     <div class="books__paginator-arrows">
                         {% if page_books.has_previous %}
-                            <a href="?page={{ page_books.previous_page_number }}">
+                            <a href="?o={{ request.GET.o }}&page={{ page_books.previous_page_number }}">
                                 <div class="books__paginator-arrows-image">
                                     <img src="{% static 'img/previous_page.svg' %}" alt="">
                                 </div>
                             </a>
                         {% elif page_books.has_next %}
-                            <a href="?page={{ page_books.next_page_number }}">
+                            <a href="?o={{ request.GET.o }}&page={{ page_books.next_page_number }}">
                                 <div class="books__paginator-arrows-image">
                                     <img src="{% static 'img/next_page.svg' %}" alt="">
                                 </div>

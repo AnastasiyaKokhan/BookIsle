@@ -42,7 +42,13 @@
            <table cellspacing="0">
                <thead>
                 <tr>
-                    <th>Фамилия</th>
+                    <th>
+                        {% if current_order == 'last_name' %}
+                            <a href="?o=-last_name&search={{ search }}">Фамилия<span>&#8593;</span></a>
+                        {% else %}
+                            <a href="?o=last_name&search={{ search }}">Фамилия<span>&#8595;</span></a>
+                        {% endif %}
+                    </th>
                     <th>Имя</th>
                     <th>Дата рождения</th>
                     <th>Адрес</th>
@@ -72,14 +78,14 @@
             <div class="readers__paginator">
                 <p>Страница {{ page_readers.number }} из {{ page_readers.paginator.num_pages }}</p>
                 <div class="readers__paginator-arrows">
-                    {% if page_books.has_previous %}
-                        <a href="?page={{ page_readers.previous_page_number }}">
+                    {% if page_readers.has_previous %}
+                        <a href="?o={{ request.GET.o }}&page={{ page_readers.previous_page_number }}">
                             <div class="readers__paginator-arrows-image">
                                 <img src="{% static 'img/previous_page.svg' %}" alt="">
                             </div>
                         </a>
-                    {% elif page_books.has_next %}
-                        <a href="?page={{ page_readers.next_page_number }}">
+                    {% elif page_readers.has_next %}
+                        <a href="?o={{ request.GET.o }}&page={{ page_readers.next_page_number }}">
                             <div class="readers__paginator-arrows-image">
                                 <img src="{% static 'img/next_page.svg' %}" alt="">
                             </div>
