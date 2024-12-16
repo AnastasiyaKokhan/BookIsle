@@ -127,7 +127,8 @@ def get_order_page(request, reader_id):
     order = Order.objects.get(reader=reader_id)
     order_items = order.orderitem_set.all()
     total_quantity = order_items.count()
-    now = datetime.now()
+
+    now = datetime.today()
     issue_date = datetime.combine(order.issue_date, datetime.min.time())
     period_of_use = now - issue_date
     total_price, sale, fine = count_total_price(order_items, period_of_use.days)
@@ -165,17 +166,16 @@ def return_books(request, reader_id):
             try:
                 for index, form in enumerate(return_books_formset):
                     book_instance_id = request.POST.get(f'book_instance_{index}')
+                    return_date = form.cleaned_data.get('return_date')
+                    fine_for_damage = form.cleaned_data.get('fine_for_damage')
+                    damage_description = form.cleaned_data.get('damage_description')
+                    photo1 = request.FILES.get(f'form-{index}-photo1')
+                    photo2 = request.FILES.get(f'form-{index}-photo2')
+                    reader_assessment = form.cleaned_data.get('reader_assessment')
+                    changed_rental_cost = form.cleaned_data.get('changed_rental_cost')
                     if book_instance_id not in selected_book_instances:
                         selected_book_instances.append(book_instance_id)
                         book_instance = BookInstance.objects.get(id=book_instance_id)
-                        return_date = form.cleaned_data.get('return_date')
-                        fine_for_damage = form.cleaned_data.get('fine_for_damage')
-                        damage_description = form.cleaned_data.get('damage_description')
-                        photo1 = request.FILES.get(f'form-{index}-photo1')
-                        photo2 = request.FILES.get(f'form-{index}-photo2')
-                        reader_assessment = form.cleaned_data.get('reader_assessment')
-                        changed_rental_cost = form.cleaned_data.get('changed_rental_cost')
-
                         price_per_day = book_instance.price_per_day
                         book_price = float(price_per_day * period_of_use.days)
                         if fine_for_damage:
@@ -188,7 +188,6 @@ def return_books(request, reader_id):
                             book_fine = (book_price * 0.01) * delay_period
                             book_price += book_fine
                         book_price = round(book_price, 2)
-
                         review = BookReturn(book_instance=book_instance, return_date=return_date,
                                             reader_assessment=reader_assessment, damage_description=damage_description,
                                             book_instance_price=book_price)

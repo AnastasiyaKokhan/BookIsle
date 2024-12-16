@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (get_main_page, get_books_page, search_books_view, get_book_description_page, delete_book_instance, \
-                    delete_book, get_add_book_page, get_add_book_instance_page, get_personal_account_page, get_error_page)
+                    delete_book, get_add_book_page, get_add_book_instance_page, get_personal_account_page)
 
 urlpatterns = [
     path('', get_main_page, name='main'),
@@ -13,5 +13,4 @@ urlpatterns = [
     path('add_book/', get_add_book_page, name='add_book'),
     path('add_book_instance/<slug:book_slug>/', get_add_book_instance_page, name='add_book_instance'),
     path('personal_account/', get_personal_account_page, name='personal_account'),
-    path('error/', get_error_page, name='error'),
 ]

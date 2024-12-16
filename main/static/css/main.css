@@ -213,7 +213,7 @@ main {
 }
 
 .income {
-    padding: 40px 40px 40px 40px;
+    padding: 60px 40px 40px 60px;
     background: white;
 }
 
@@ -225,7 +225,7 @@ main {
 }
 
 .income__information {
-    padding: 60px 0px 30px 0px;
+    padding: 60px 0px 40px 0px;
     display: flex;
     justify-content: center;
 }
@@ -237,8 +237,8 @@ main {
 .income__table thead {
     background: #B0C4DE;
     color: black;
-    font-size: 25px;
-    font-weight: bold;
+    font-size: 28px;
+    font-style: italic;
 }
 
 .income__table thead th {
@@ -257,7 +257,8 @@ main {
 .income__table tbody {
     background: white;
     color: black;
-    font-size: 18px;
+    font-size: 23px;
+    font-style: italic;
 }
 
 .income__table tbody tr:hover {

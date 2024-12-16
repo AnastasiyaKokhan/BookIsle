@@ -132,16 +132,6 @@ def search_books_view(request):
     genres = Genre.objects.all()
 
     search = request.POST.get('search') if request.method == 'POST' else request.GET.get('search')
-    # if request.method == 'POST':
-        # if search and len(search) >= 3:
-        #     books_by_title = Book.objects.filter(Q(russian_title__icontains=search) | Q(original_title__icontains=search))
-        #     authors = (Author.objects
-        #                .annotate(search=SearchVector('first_name', 'last_name'))
-        #                .filter(Q(search=search) | Q(first_name__icontains=search) | Q(last_name__icontains=search)))
-        #     books_by_author = []
-        #     for author in authors:
-        #         books_by_author.extend(author.book_set.all())
-        #     books = books_by_title | books_by_author
     if search and len(search) >= 3:
         authors = (Author.objects
                    .annotate(search=SearchVector('first_name', 'last_name'))
@@ -179,7 +169,7 @@ def get_book_description_page(request, book_slug):
     try:
         book = books.get(slug=book_slug)
     except ObjectDoesNotExist:
-        return redirect('error')
+        return render(request, 'error.html')
 
     instances = book.bookinstance_set.all()
     page_instances = paginate_objects(request, instances, 20)
@@ -309,7 +299,7 @@ def get_add_book_instance_page(request, book_slug):
     try:
         book = books.get(slug=book_slug)
     except ObjectDoesNotExist:
-        return redirect('error')
+        return render(request, 'error.html')
     add_book_instance_form = AddBookInstanceForm()
     if request.method == "POST":
         form = AddBookInstanceForm(request.POST)
@@ -353,7 +343,3 @@ def get_personal_account_page(request):
         context = {}
 
     return render(request, 'personal_account.html', context)
-
-
-def get_error_page(request):
-    return render(request, 'error.html')
